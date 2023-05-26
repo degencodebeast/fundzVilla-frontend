@@ -56,7 +56,7 @@ const Hero = () => {
             fontWeight="400"
             color="gray.500"
           >
-            Create campaigns to fund your dream projects or support the cause you wanna fund.
+            Create campaigns to fund your dream projects or support the cause you wanna fund. 
           </Text>
           <HStack
             spacing={{ base: 0, sm: 2 }}
