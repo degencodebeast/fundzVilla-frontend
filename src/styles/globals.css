@@ -25,3 +25,7 @@ body {
     )
     rgb(var(--background-start-rgb));
 }
+
+.main-color {
+  background-color: rgb(12, 12, 39);
+}
