@@ -76,7 +76,7 @@ contract CampaignManager is Ownable {
     //can only be called by DAO, might be expensive for now, could refactor later to
     //optimize for gas
     function removeCampaignId(uint256 element) public onlyOwner {
-        uint index = findIndex(element);
+        uint index = findCampaignIdIndex(element);
         require(index < allCampaignIds.length, "Element not found");
 
         // Move the last element to the index being deleted
@@ -86,7 +86,7 @@ contract CampaignManager is Ownable {
         allCampaignIds.pop();
     }
 
-    function findIndex(uint element) internal view returns (uint) {
+    function findCampaignIdIndex(uint element) internal view returns (uint) {
         for (uint i = 0; i < allCampaignIds.length; i++) {
             if (allCampaignIds[i] == element) {
                 return i;
@@ -98,7 +98,7 @@ contract CampaignManager is Ownable {
     //can only be called by DAO, might be expensive for now, could refactor later to
     //optimize for gas
     function removeCampaignAddr(Campaign campaign) public onlyOwner {
-        uint index = findIndex(campaign);
+        uint index = findCampaignAddrIndex(campaign);
         require(index < allCampaigns.length, "Element not found");
 
         // Move the last element to the index being deleted
@@ -108,7 +108,7 @@ contract CampaignManager is Ownable {
         allCampaigns.pop();
     }
 
-    function findIndex(Campaign campaign) internal view returns (uint) {
+    function findCampaignAddrIndex(Campaign campaign) internal view returns (uint) {
         for (uint i = 0; i < allCampaignIds.length; i++) {
             if (allCampaigns[i] == campaign) {
                 return i;
