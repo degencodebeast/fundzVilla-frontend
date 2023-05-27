@@ -71,7 +71,7 @@ contract CampaignManager is Ownable {
         _campaignId = campaignToIds[campaign];
     }
 
-    //depending on the front end, you'll use which identifier would be easier to
+    //depending on the front end, you'll use the identifier that would be easier to
     //interact with, either the campaign id or the campaign contract address itself
     //can only be called by DAO, might be expensive for now, could refactor later to
     //optimize for gas
