@@ -37,7 +37,7 @@ const Footer = () => {
       direction={{ base: 'column', md: 'row' }}
     >
       <Link href="#" isExternal>
-        <Image w="100px" src="main.svg" alt="logo" />
+        <Image w="100px" src="/main.svg" alt="logo" />
       </Link>
 
       {/* Desktop Screen */}

@@ -63,6 +63,7 @@ const Hero = () => {
             mb={{ base: '3rem !important', sm: 0 }}
             flexWrap="wrap"
           >
+             <Link href='/campaigns/create-campaign'>  
             <chakra.button
               w={{ base: '100%', sm: 'auto' }}
               h={12}
@@ -76,9 +77,10 @@ const Hero = () => {
               bgGradient="linear(to-l, #0ea5e9,#2563eb)"
               _hover={{ bgGradient: 'linear(to-l, #0ea5e9,#2563eb)', opacity: 0.9 }}
             >
-              <chakra.span> Create Campaigns </chakra.span>
+           <chakra.span> Create Campaigns </chakra.span>
               <Icon as={MdBolt} h={4} w={4} ml={1} />
             </chakra.button>
+            </Link>
             <Box
               display="flex"
               justifyContent="center"

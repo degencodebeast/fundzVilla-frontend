@@ -16,15 +16,14 @@ import {
     useDisclosure,
     useColorModeValue
   } from '@chakra-ui/react';
-  // Here we have used react-icons package for the icons
   import { GiHamburgerMenu } from 'react-icons/gi';
   import { AiOutlineClose } from 'react-icons/ai';
   import { BiChevronDown } from 'react-icons/bi';
   import { RiFlashlightFill } from 'react-icons/ri';
   
   const navLinks = [
-    { name: 'Governance', path: '#' },
-    { name: 'Campaign', path: '#' },
+    { name: 'Governance', path: '/governance' },
+    { name: 'Campaigns', path: '/campaigns' },
     { name: 'Community', path: '#' },
   ];
   
@@ -51,7 +50,7 @@ import {
       <Box className='relative bg-black shadow-2xl pb-5 ' px={4} >
         <Flex h={16} alignItems="center" justifyContent="space-between" mx="auto">
         
-        <Box mt={5}><Image boxSize='160px' src='main.svg' alt='Logo' /> </Box>
+        <Link href='/'><Box mt={5}><Image boxSize='160px' src='/main.svg' alt='Logo' /> </Box></Link>
         
       
           <HStack spacing={8} alignItems="center">

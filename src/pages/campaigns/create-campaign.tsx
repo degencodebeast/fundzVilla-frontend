@@ -13,9 +13,9 @@ function CreateCampaign() {
     <main
       className={`main-color flex min-h-screen flex-col items-center justify-between p-24 `}
     >
-      <Center> <h1> Create Campaign</h1></Center>
+     <CampaignForm />
 
-      <SimpleSignIn />
+      {/* <SimpleSignIn /> */}
 
 <Footer/>
     
@@ -24,8 +24,7 @@ function CreateCampaign() {
     </>
   )
 }
-
-const SimpleSignIn = () => {
+const CampaignForm = () => {
   const [show, setShow] = useState(false);
   const handleClick = () => setShow(!show);
 
@@ -34,7 +33,7 @@ const SimpleSignIn = () => {
       <Center>
         <Stack spacing={4}>
           <Stack align="center">
-            <Heading fontSize="2xl">Sign in to your account</Heading>
+            <Heading fontSize="2xl">Create Campaign</Heading>
           </Stack>
           <VStack
             as="form"
@@ -47,40 +46,33 @@ const SimpleSignIn = () => {
             spacing={8}
           >
             <VStack spacing={4} w="100%">
+
               <FormControl id="email">
-                <FormLabel>Email</FormLabel>
-                <Input rounded="md" type="email" />
+                <FormLabel>Campaign Title</FormLabel>
+                <Input rounded="md" type="text" placeholder='Enter campaign title' />
               </FormControl>
-              <FormControl id="password">
-                <FormLabel>Password</FormLabel>
-                <InputGroup size="md">
-                  <Input rounded="md" type={show ? 'text' : 'password'} />
-                  <InputRightElement width="4.5rem">
-                    <Button
-                      h="1.75rem"
-                      size="sm"
-                      rounded="md"
-                      bg={useColorModeValue('gray.300', 'gray.700')}
-                      _hover={{
-                        bg: useColorModeValue('gray.400', 'gray.800')
-                      }}
-                      onClick={handleClick}
-                    >
-                      {show ? 'Hide' : 'Show'}
-                    </Button>
-                  </InputRightElement>
-                </InputGroup>
+
+              <FormControl id="desc">
+                <FormLabel>Description</FormLabel>
+                <Input rounded="md" type="text" placeholder='Describe your project'/>
               </FormControl>
+
+              <FormControl id="targ">
+                <FormLabel>Target (USDT)</FormLabel>
+                <Input rounded="md" type="text" placeholder='Enter the amount you need for suppport' />
+              </FormControl>
+
+              <FormControl id="image">
+                <FormLabel>Campaign Banner</FormLabel>
+                <Input rounded="md" type="file"  />
+              </FormControl>
+            
+
             </VStack>
             <VStack w="100%">
-              <Stack direction="row" justify="space-between" w="100%">
-                <Checkbox colorScheme="green" size="md">
-                  Remember me
-                </Checkbox>
-                <Link fontSize={{ base: 'md', sm: 'md' }}>Forgot password?</Link>
-              </Stack>
+          
               <Button
-                bg="green.300"
+                bgGradient="linear(to-l, #0ea5e9,#2563eb)"  
                 color="white"
                 _hover={{
                   bg: 'green.500'
@@ -88,7 +80,7 @@ const SimpleSignIn = () => {
                 rounded="md"
                 w="100%"
               >
-                Sign in
+                Create Campaign
               </Button>
             </VStack>
           </VStack>
@@ -96,7 +88,7 @@ const SimpleSignIn = () => {
       </Center>
     </Container>
   );
+};
 
 
-}
 export default CreateCampaign
