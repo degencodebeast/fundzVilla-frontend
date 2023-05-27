@@ -69,7 +69,6 @@ const Hero = () => {
               h={12}
               px={6}
               color="white"
-              size="lg"
               rounded="md"
               mb={{ base: 2, sm: 0 }}
               zIndex={5}

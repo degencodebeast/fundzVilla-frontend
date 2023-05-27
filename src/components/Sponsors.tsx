@@ -92,7 +92,7 @@ const Sponsors = () => {
         {sponsors.map((sponsor, index) => (
           <Box
             key={index}
-            bg={useColorModeValue('gray.100', 'gray.700')}
+            // bg={useColorModeValue('gray.100', 'gray.700')}
             p={6}
             rounded="lg"
             textAlign="center"
@@ -111,7 +111,7 @@ const Sponsors = () => {
               top="-1.5rem"
               boxShadow="lg"
             >
-              {sponsor.icon}
+              {'icon'}
             </Flex>
             <chakra.h3 fontWeight="semibold" fontSize="2xl" mt={6}>
               {sponsor.heading}
