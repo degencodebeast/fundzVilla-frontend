@@ -109,7 +109,7 @@ contract CampaignManager is Ownable {
     }
 
     function findCampaignAddrIndex(Campaign campaign) internal view returns (uint) {
-        for (uint i = 0; i < allCampaignIds.length; i++) {
+        for (uint i = 0; i < allCampaigns.length; i++) {
             if (allCampaigns[i] == campaign) {
                 return i;
             }
