@@ -147,28 +147,13 @@ contract CampaignManager is Ownable {
         _allCampaignIds = allCampaignIds;
     }
 
-    // function that checks whether or not that each of the spoke chains have sent in donation data before
-    // allowing a withdrawal (which is found by checking completed on a campaign on all chains)
-
-    // function _beforeWithdrawal(uint256 _campaignId) public {
-    //     finishCollectionPhase(_campaignId);
-
-    //     require(
-    //         collectionFinished[_campaignId],
-    //         "Collection phase for this proposal is unfinished!"
-    //     );
-
-    //     //callwithdraw
-    // }
-
-
 
     function enableWithdrawal() public {}
 
     function Donate(
         uint256 _campaignId,
-        uint256 _amount,
-        address payable _recipient
+        uint256 _amount
+        //address payable _recipient
     ) public payable virtual {
         require(
             address(idToCampaigns[_campaignId]) != address(0),
@@ -178,6 +163,8 @@ contract CampaignManager is Ownable {
             msg.value > _amount,
             "sent amount is lower than amount you want to donate"
         );
+        address campaignAddr = address(idToCampaigns[_campaignId]);
+        address payable _recipient = payable(campaignAddr);
         _recipient.transfer(msg.value);
     }
 
