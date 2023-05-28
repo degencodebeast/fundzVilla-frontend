@@ -54,7 +54,7 @@ import {
         
       
           <HStack spacing={8} alignItems="center">
-            <HStack as="nav" spacing={9} display={{ base: 'none', md: 'flex' }} alignItems="center" mt={5}>
+            <HStack as="nav" spacing={9} color={'white.600'} display={{ base: 'none', md: 'flex' }} alignItems="center" mt={5}>
               {navLinks.map((link, index) => (
                 <NavLink key={index} {...link} onClose={onClose} />
               ))}
