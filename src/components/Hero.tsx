@@ -45,7 +45,7 @@ const Hero = () => {
               <Icon as={GoChevronRight} w={4} h={4} />
             </HStack>
           </HStack>
-          <chakra.h1 fontSize="5xl" lineHeight={1} fontWeight="bold" textAlign="left">
+          <chakra.h1 fontSize="5xl" lineHeight={1} color={'white'} fontWeight="bold" textAlign="left">
             We Rise By Lifting Others <br />
             <chakra.span color="teal">at FundzVilla</chakra.span>
           </chakra.h1>
@@ -63,12 +63,12 @@ const Hero = () => {
             mb={{ base: '3rem !important', sm: 0 }}
             flexWrap="wrap"
           >
+             <Link href='/campaigns/create-campaign'>  
             <chakra.button
               w={{ base: '100%', sm: 'auto' }}
               h={12}
               px={6}
               color="white"
-              size="lg"
               rounded="md"
               mb={{ base: 2, sm: 0 }}
               zIndex={5}
@@ -76,9 +76,10 @@ const Hero = () => {
               bgGradient="linear(to-l, #0ea5e9,#2563eb)"
               _hover={{ bgGradient: 'linear(to-l, #0ea5e9,#2563eb)', opacity: 0.9 }}
             >
-              <chakra.span> Create Campaigns </chakra.span>
+           <chakra.span> Create Campaigns </chakra.span>
               <Icon as={MdBolt} h={4} w={4} ml={1} />
             </chakra.button>
+            </Link>
             <Box
               display="flex"
               justifyContent="center"

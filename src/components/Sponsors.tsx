@@ -84,7 +84,7 @@ const sponsors: ISponsor[] = [
 
 const Sponsors = () => {
   return (
-    <Container maxW="6xl" p={{ base: 5, md: 10 }}>
+    <Container  color={'white'} maxW="6xl" p={{ base: 5, md: 10 }}>
       <chakra.h3 fontSize="4xl" fontWeight="bold" mb={20} textAlign="center">
         Meet Our Sponsors
       </chakra.h3>
@@ -92,7 +92,7 @@ const Sponsors = () => {
         {sponsors.map((sponsor, index) => (
           <Box
             key={index}
-            bg={useColorModeValue('gray.100', 'gray.700')}
+            // bg={useColorModeValue('gray.100', 'gray.700')}
             p={6}
             rounded="lg"
             textAlign="center"
@@ -111,7 +111,7 @@ const Sponsors = () => {
               top="-1.5rem"
               boxShadow="lg"
             >
-              {sponsor.icon}
+              {'icon'}
             </Flex>
             <chakra.h3 fontWeight="semibold" fontSize="2xl" mt={6}>
               {sponsor.heading}

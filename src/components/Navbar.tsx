@@ -16,15 +16,14 @@ import {
     useDisclosure,
     useColorModeValue
   } from '@chakra-ui/react';
-  // Here we have used react-icons package for the icons
   import { GiHamburgerMenu } from 'react-icons/gi';
   import { AiOutlineClose } from 'react-icons/ai';
   import { BiChevronDown } from 'react-icons/bi';
   import { RiFlashlightFill } from 'react-icons/ri';
-  
+  import { ConnectButton } from '@rainbow-me/rainbowkit';
   const navLinks = [
-    { name: 'Governance', path: '#' },
-    { name: 'Campaign', path: '#' },
+    { name: 'Governance', path: '/governance' },
+    { name: 'Campaigns', path: '/campaigns' },
     { name: 'Community', path: '#' },
   ];
   
@@ -51,11 +50,11 @@ import {
       <Box className='relative bg-black shadow-2xl pb-5 ' px={4} >
         <Flex h={16} alignItems="center" justifyContent="space-between" mx="auto">
         
-        <Box mt={5}><Image boxSize='160px' src='main.svg' alt='Logo' /> </Box>
+        <Link href='/'><Box mt={5}><Image boxSize='160px' src='/main.svg' alt='Logo' /> </Box></Link>
         
       
           <HStack spacing={8} alignItems="center">
-            <HStack as="nav" spacing={9} display={{ base: 'none', md: 'flex' }} alignItems="center" mt={5}>
+            <HStack as="nav" spacing={9} color={'white.700'} display={{ base: 'none', md: 'flex' }} alignItems="center" mt={5}>
               {navLinks.map((link, index) => (
                 <NavLink key={index} {...link} onClose={onClose} />
               ))}
@@ -64,9 +63,7 @@ import {
             </HStack>
           </HStack>
   
-          <Button   bgGradient="linear(to-l, #0ea5e9,#2563eb)"  size="md" rounded="md" mt={6} display={{ base: 'none', md: 'block' }}>
-            connect Wallet
-          </Button>
+          <ConnectButton/>
           <IconButton
             size="md"
             icon={isOpen ? <AiOutlineClose /> : <GiHamburgerMenu />}
@@ -89,11 +86,12 @@ import {
               
              
             </Stack>
+
+            <ConnectButton/>
           
           </Box>
-          <Button   bgGradient="linear(to-l, #0ea5e9,#2563eb)"  size="md" rounded="md" mt={6} display={{ base: 'none', md: 'block' }}>
-            connect Wallet
-          </Button>
+         
+          
             </>
            
         ) : null}
@@ -113,6 +111,7 @@ import {
       <Link
         href={path}
         lineHeight="inherit"
+        color={'white'}
         _hover={{
           textDecoration: 'none',
           color: useColorModeValue('blue.500', 'blue.200')
@@ -134,7 +133,7 @@ import {
   const MenuLink = ({ name, path, onClose }: MenuLinkProps) => {
     return (
       <Link href={path} onClick={() => onClose()}>
-        <MenuItem _hover={{ color: 'blue.400', bg: useColorModeValue('gray.200', 'gray.700') }}>
+        <MenuItem _hover={{ color: 'blue.400', bg: useColorModeValue('white.200', 'white.700') }}>
           <Text>{name}</Text>
         </MenuItem>
       </Link>
