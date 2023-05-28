@@ -5,9 +5,12 @@ import { Button, Center, Checkbox, Container, FormControl, FormLabel, Heading, I
 import { useEffect, useState } from "react";
 import toast, { Toaster } from "react-hot-toast";
 import { Web3Storage } from "web3.storage";
-import { useContractWrite } from "wagmi";
-import { prepareWriteContract, writeContract } from "@wagmi/core";
+import { prepareWriteContract, writeContract } from '@wagmi/core'
 import { ethers } from "ethers";
+import { CAMPAIGN_MANAGER_ABI } from '@/constants/contract';
+import { useContractWrite, useNetwork,  } from "wagmi";
+
+
 
 
 const client = new Web3Storage({
@@ -70,21 +73,31 @@ function CreateCampaign() {
       console.log(objHash, _target, )
 
       // const configure = await prepareWriteContract({
-      //   address: "0xe8d3a73f6351f9f5dd6A577aD4ddF7d5C84DF5C8",
-      //   abi: ABI.campaignFactory,
+      //   address: "0x52B3BA8ca46ae59FF43F0b9A04Dd32384e032Ecc",
+      //   abi: CAMPAIGN_MANAGER_ABI,
       //   functionName: 'createCampaign',
       //   args: [objHash, _target],
       // })
-      // const data = await writeContract(configure)
+      // const data = await writeContract(configure);
 
+      const { hash } = await writeContract({
+        address: '0x52B3BA8ca46ae59FF43F0b9A04Dd32384e032Ecc',
+        abi: CAMPAIGN_MANAGER_ABI,
+        functionName: 'createCampaign',
+        args: [objHash, _target],
+      })
+
+    
+
+    
      
       
       // const contractInst = new ethers.Contract(
       //   '0xe8d3a73f6351f9f5dd6A577aD4ddF7d5C84DF5C8',
-      //   ABI.campaignFactory,
+      //   CAMPAIGN_MANAGER_ABI,
       //  signer.data || provider,
       // );
-      // const data = await contractInst.createCampaign(objHash, _target, satelliteAddr)
+      // const data = await contractInst.createCampaign(objHash, _target)
       // data.wait()
      
       toast.success('Campaign Successfully created!')

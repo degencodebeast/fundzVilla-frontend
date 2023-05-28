@@ -5,6 +5,7 @@ import { useEffect, useState } from 'react'
 import { useContractRead } from 'wagmi';
 import { readContract } from '@wagmi/core';
 import axios from 'axios';
+import { CAMPAIGN_ABI, CAMPAIGN_MANAGER, CAMPAIGN_MANAGER_ABI } from '@/constants/contract';
 const dataList = [
     {
       id: 1,
@@ -36,16 +37,18 @@ const dataList = [
 
   type CampaignDetail = {
     campaignId: number
-    campaignImage: string
+    coverImage: string
+    isVerified: boolean
     campaignTitle: string
+    campaignTarget: string
     campaignDescription: string
-    campaignerWalletAddress: string
+    campaignOwner: string
     campaignScAddress: string
   }
   type Campaign = {
     campaign_ID: number
-    campaign_image: any
-    campaign_title: string
+    coverImage: any
+    campaignName: string
     campaign_description: string
     poster_address: any
   }
@@ -61,71 +64,77 @@ function Campaigns() {
   const getallCampaigns = async () => {
     try {
       const allCampaignsAddresses: any = await readContract({
-        address: BLOG_MANAGER_CONTRACT_ADDRESS,
-        abi: BLOG_MANAGER_ABI,
-        functionName: 'getcampaigns',
+        address: CAMPAIGN_MANAGER,
+        abi: CAMPAIGN_MANAGER_ABI,
+        functionName: 'getAllCampaigns',
       })
 
-      const allCampaigns: any = await readContract({
-        address: BLOG_MANAGER_CONTRACT_ADDRESS,
-        abi: BLOG_MANAGER_ABI,
-        functionName: 'getcampaignsData',
-        args: [allCampaignsAddresses],
-      })
-      setLatestCid(allCampaigns.campaignCID)
-      setNoOfcampaigns(allCampaigns.campaignerAddress.length)
+      console.log('HERE: ', allCampaignsAddresses);
 
       let new_campaigns = []
-      //iterate and loop through the data retrieve from the blockchain
-      for (let i = 0; i < allCampaigns.campaignerAddress.length; i++) {
-        let campaignerWalletAddress: string = allCampaigns.campaignerAddress[i]
-        let noOfComments: number = allCampaigns.numberOfComments[i].toNumber()
-        let campaignSCAddress = allCampaignsAddresses[i]
 
-        //get campaignId
+      for(let i = 0; i < allCampaignsAddresses.length; i++) {
+
+        const campaignCID: any = await readContract({
+          address: allCampaignsAddresses[i],
+          abi: CAMPAIGN_ABI,
+          functionName: 'campaignCID',
+        })
         const campaignId: any = await readContract({
-          address: BLOG_MANAGER_CONTRACT_ADDRESS,
-          abi: BLOG_MANAGER_ABI,
-          functionName: 'campaignIds',
-          args: [campaignSCAddress],
+          address: allCampaignsAddresses[i],
+          abi: CAMPAIGN_ABI,
+          functionName: 'id',
+        })
+        const campaignOwner: any = await readContract({
+          address: allCampaignsAddresses[i],
+          abi: CAMPAIGN_ABI,
+          functionName: 'owner',
+        })
+        const campaignTarget: any = await readContract({
+          address: allCampaignsAddresses[i],
+          abi: CAMPAIGN_ABI,
+          functionName: 'target',
         })
 
-        if (allCampaigns.campaignCID !== 0) {
-          //get file data using axios from url
-          // const seeData = await getJSONFromCID(allCampaigns.campaignCID)
+        if(campaignCID) {
           let config: any = {
             method: 'get',
-            url: `https://${allCampaigns.campaignCID}.ipfs.w3s.link/campaign.json`,
+            url: `https://${campaignCID}.ipfs.w3s.link/obj.json`,
             headers: {},
           }
           const axiosResponse = await axios(config)
 
           const campaignDataObject: Campaign[] = axiosResponse.data
 
-
-          const getCurrentcampaignTitle = campaignDataObject.filter(
-            (data) => data.campaign_ID === campaignId.toNumber(),
-          )[0].campaign_title
-          const getCurrentcampaignDescription = campaignDataObject.filter(
-            (data) => data.campaign_ID === campaignId.toNumber(),
-          )[0].campaign_description
-          const getCurrentcampaignImage = campaignDataObject.filter(
-            (data) => data.campaign_ID === campaignId.toNumber(),
-          )[0].campaign_image
-
-          //Data of each campaign
-          let newcampaign: CampaignDetail = {
-            campaignTitle: getCurrentcampaignTitle,
-            campaignImage: getCurrentcampaignImage,
-            campaignDescription: getCurrentcampaignDescription,
-            campaignId: campaignId.toNumber(),
-            campaignerWalletAddress, //user wallet address
-            campaignScAddress, //campaign smart contract address
+          console.log(campaignDataObject)
+          
+          const CampaignObj = {
+            campaignId: Number(campaignId),
+            campaignOwner: campaignOwner,
+            campaignTarget: Number(campaignTarget),
+            campaignTitle: campaignDataObject.campaignName,
+            campaignDescription: campaignDataObject.projectDetails,
+            coverImage: campaignDataObject.coverImage,
+            campaignScAddress: allCampaignsAddresses[i],
+            isVerified: false,
           }
-          new_campaigns.push(newcampaign)
+          console.log(CampaignObj)
+
+          new_campaigns.push(CampaignObj)
+
+
+          
         }
+
+
       }
-      setallCampaigns(new_campaigns)
+
+      setallCampaigns(new_campaigns);
+
+     
+
+
+    
     } catch (error) {
       console.log(error)
     }
@@ -154,11 +163,11 @@ function Campaigns() {
         <div>
         <Container maxWidth="1200px" mx="auto" my="auto" p={{ base: 5, md: 10 }}>
       <SimpleGrid columns={[1, 2, 3]} spacing="20px">
-        {dataList.map((blog) => {
+        {allCampaigns.map((campaign) => {
           return (
-            <Box position="relative" key={blog.id} >
+            <Box position="relative" key={campaign.campaignId} >
               <Box fontSize="sm" position="absolute" right="5px" margin="5px" zIndex="1">
-                 {blog.isVerified ? <Badge rounded="full" p="2px 8px" colorScheme="green" backgroundColor={'green.600'}>
+                 {campaign.isVerified ? <Badge rounded="full" p="2px 8px" colorScheme="green" backgroundColor={'green.600'}>
                   Verified
                 </Badge> :  <Badge rounded="full" p="2px 8px" colorScheme="red" backgroundColor={'yellow.600'}>
                   Not Verified
@@ -177,7 +186,7 @@ function Campaigns() {
                   position="relative"
                   
                 >
-                  <Image  src="https://bit.ly/2Z4KKcF" alt="Blog image" />
+                  <Image  src={`https://ipfs.io/ipfs/${campaign.coverImage}`} alt="Blog image" />
                   <Box p={{ base: 4, lg: 6 }}>
                     <Box display="flex" alignItems="baseline">
                       <Box
@@ -189,16 +198,16 @@ function Campaigns() {
                         color={'white'}
                         
                       >
-                        {blog.title}
+                        {campaign.campaignTitle}
                       </Box>
                     </Box>
                     <Box>
                       <Box color="gray.600" fontSize="sm">
                         <Badge rounded="full" px="2" colorScheme="teal">
-                          {blog.authorName}
+                          {campaign.campaignOwner}
                         </Badge>
                       </Box>
-                      <Text mt={1} color="white" ml={1}><strong>{blog.target} USDT</strong> </Text>
+                      <Text mt={1} color="white" ml={1}><strong>{campaign.campaignTarget} BIT</strong> </Text>
                     </Box>
                     <Text
                       mt="1"
@@ -208,7 +217,7 @@ function Campaigns() {
                       color="gray.600"
                       fontSize="sm"
                     >
-                      {blog.content}
+                      {campaign.campaignDescription}
                     </Text>
                   </Box>
                 </Box>
