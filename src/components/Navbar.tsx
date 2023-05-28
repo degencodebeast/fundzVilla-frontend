@@ -54,7 +54,7 @@ import {
         
       
           <HStack spacing={8} alignItems="center">
-            <HStack as="nav" spacing={9} color={'white.600'} display={{ base: 'none', md: 'flex' }} alignItems="center" mt={5}>
+            <HStack as="nav" spacing={9} color={'white.700'} display={{ base: 'none', md: 'flex' }} alignItems="center" mt={5}>
               {navLinks.map((link, index) => (
                 <NavLink key={index} {...link} onClose={onClose} />
               ))}
@@ -112,6 +112,7 @@ import {
       <Link
         href={path}
         lineHeight="inherit"
+        color={'white'}
         _hover={{
           textDecoration: 'none',
           color: useColorModeValue('blue.500', 'blue.200')
@@ -133,7 +134,7 @@ import {
   const MenuLink = ({ name, path, onClose }: MenuLinkProps) => {
     return (
       <Link href={path} onClick={() => onClose()}>
-        <MenuItem _hover={{ color: 'blue.400', bg: useColorModeValue('gray.200', 'gray.700') }}>
+        <MenuItem _hover={{ color: 'blue.400', bg: useColorModeValue('white.200', 'white.700') }}>
           <Text>{name}</Text>
         </MenuItem>
       </Link>
