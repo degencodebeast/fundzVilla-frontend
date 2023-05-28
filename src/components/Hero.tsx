@@ -45,7 +45,7 @@ const Hero = () => {
               <Icon as={GoChevronRight} w={4} h={4} />
             </HStack>
           </HStack>
-          <chakra.h1 fontSize="5xl" lineHeight={1} fontWeight="bold" textAlign="left">
+          <chakra.h1 fontSize="5xl" lineHeight={1} color={'white'} fontWeight="bold" textAlign="left">
             We Rise By Lifting Others <br />
             <chakra.span color="teal">at FundzVilla</chakra.span>
           </chakra.h1>
