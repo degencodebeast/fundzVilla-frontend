@@ -54,7 +54,6 @@ const dataList = [
   }
 function Campaigns() {
 
-  const [latestCid, setLatestCid] = useState<string>('')
   const [allCampaigns, setallCampaigns] = useState<CampaignDetail[]>([])
   const [noOfcampaigns, setNoOfcampaigns] = useState<number>(0)
   const [isLoading, setIsLoading] = useState(true);
