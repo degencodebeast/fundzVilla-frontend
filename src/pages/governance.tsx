@@ -49,11 +49,12 @@ const dataList = [
     campaignName: string
     campaign_description: string
     poster_address: any
+    projectDetails: any
   }
 
 function Campaigns() {
 
-  const [allCampaigns, setallCampaigns] = useState<CampaignDetail[]>([])
+  const [allCampaigns, setallCampaigns] = useState<any[]>([])
   const [noOfcampaigns, setNoOfcampaigns] = useState<number>(0)
   const [isLoading, setIsLoading] = useState(true);
 
@@ -102,7 +103,7 @@ function Campaigns() {
           }
           const axiosResponse = await axios(config)
 
-          const campaignDataObject: Campaign[] = axiosResponse.data
+          const campaignDataObject: Campaign = axiosResponse.data
 
           console.log(campaignDataObject)
           
