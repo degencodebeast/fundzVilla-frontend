@@ -20,7 +20,7 @@ git clone https://github.com/gabrieltemtsen/fundz-villa
 ```
 2. Change to the project directory: 
 ```bash
-cd funz-villa
+cd fundz-villa
 ```
 3. Install the required dependencies: 
 ```bash
@@ -31,4 +31,12 @@ Once you have completed the installation, you can run Daovation using the follow
 command: 
 ```bash
 npm run dev
+```
+## Deployed contract addresses on the Mantle Network
+
+```bash
+Campaign Manager Contract: 
+0x52B3BA8ca46ae59FF43F0b9A04Dd32384e032Ecc
+
+Governance Token Contract: 0xD2Ff3AC32A5479F53b6dc234866AD1d7cc69C0D9
 ```
