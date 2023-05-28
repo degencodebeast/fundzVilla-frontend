@@ -39,7 +39,7 @@ function Campaigns() {
     <main
       className={`main-color flex min-h-screen flex-col items-center justify-between p-24 `}
     >
-        <Text fontWeight={20} fontSize={27} > CAMPAIGNS</Text>
+        <Text color={'white'} fontWeight={20} fontSize={27} > CAMPAIGNS</Text>
         <div>
         <Container maxWidth="1200px" mx="auto" my="auto" p={{ base: 5, md: 10 }}>
       <SimpleGrid columns={[1, 2, 3]} spacing="20px">
@@ -75,6 +75,7 @@ function Campaigns() {
                         letterSpacing="wide"
                         textTransform="uppercase"
                         ml="2"
+                        color={'white'}
                         
                       >
                         {blog.title}
@@ -86,7 +87,7 @@ function Campaigns() {
                           {blog.authorName}
                         </Badge>
                       </Box>
-                      <Text mt={1} color="white.200" ml={1}><strong>{blog.target} USDT</strong> </Text>
+                      <Text mt={1} color="white" ml={1}><strong>{blog.target} USDT</strong> </Text>
                     </Box>
                     <Text
                       mt="1"

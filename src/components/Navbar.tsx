@@ -20,7 +20,7 @@ import {
   import { AiOutlineClose } from 'react-icons/ai';
   import { BiChevronDown } from 'react-icons/bi';
   import { RiFlashlightFill } from 'react-icons/ri';
-  
+  import { ConnectButton } from '@rainbow-me/rainbowkit';
   const navLinks = [
     { name: 'Governance', path: '/governance' },
     { name: 'Campaigns', path: '/campaigns' },
@@ -63,9 +63,7 @@ import {
             </HStack>
           </HStack>
   
-          <Button   bgGradient="linear(to-l, #0ea5e9,#2563eb)"  size="md" rounded="md" mt={6} display={{ base: 'none', md: 'block' }}>
-            connect Wallet
-          </Button>
+          <ConnectButton/>
           <IconButton
             size="md"
             icon={isOpen ? <AiOutlineClose /> : <GiHamburgerMenu />}
@@ -88,11 +86,12 @@ import {
               
              
             </Stack>
+
+            <ConnectButton/>
           
           </Box>
-          <Button   bgGradient="linear(to-l, #0ea5e9,#2563eb)"  size="md" rounded="md" mt={6} display={{ base: 'none', md: 'block' }}>
-            connect Wallet
-          </Button>
+         
+          
             </>
            
         ) : null}
