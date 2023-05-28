@@ -4,7 +4,7 @@ pragma solidity ^0.8.0;
 contract Campaign {
 
     address public owner;
-    string public campaignCID;
+    string public   ;
     uint256 public id;
     uint256 public createdAt;
     uint256 public raisedFunds;
