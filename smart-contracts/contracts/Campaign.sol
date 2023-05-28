@@ -10,14 +10,14 @@ contract Campaign {
     uint256 public raisedFunds;
     uint256 public target;
 
-    struct Donors {
-        string name;
-        uint256 amountDonated;
-    }
+    // struct Donors {
+    //     string name;
+    //     uint256 amountDonated;
+    // }
 
-    mapping(address => Donors) public donors;
+    // mapping(address => Donors) public donors;
 
-    Donors[] public _ALL_DONORS;
+    // Donors[] public _ALL_DONORS;
 
     constructor(
         address _owner,
@@ -33,16 +33,16 @@ contract Campaign {
         id = _id;
     }
 
-    function donate(string memory _name) public payable returns (bool) {
-        require(msg.value > 0, "You cannot donate below 0");
-        uint256 donation = msg.value;
-        raisedFunds += donation;
-        Donors storage donor = donors[msg.sender];
-        donor.name = _name;
-        donor.amountDonated = msg.value;
-        _ALL_DONORS.push(donor);
-        return true;
-    }
+    // function donate(string memory _name) public payable returns (bool) {
+    //     require(msg.value > 0, "You cannot donate below 0");
+    //     uint256 donation = msg.value;
+    //     raisedFunds += donation;
+    //     Donors storage donor = donors[msg.sender];
+    //     donor.name = _name;
+    //     donor.amountDonated = msg.value;
+    //     _ALL_DONORS.push(donor);
+    //     return true;
+    // }
     
     function claim() public payable {
         require(msg.sender == owner);
@@ -54,8 +54,8 @@ contract Campaign {
         // Handle the received Ether here
     }
 
-    function vote() public {
+    // function vote() public {
 
-    }
+    // }
     
 }
