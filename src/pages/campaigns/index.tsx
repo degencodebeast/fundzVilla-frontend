@@ -1,7 +1,10 @@
 import { Inter } from 'next/font/google'
 import { Features, Footer, Hero, Navbar, Sponsors } from '@/components'
 import { Image, Badge, Box, Button, Center, Text, Checkbox, Container, FormControl, FormLabel, Heading, Input, InputGroup, InputRightElement, Link, SimpleGrid, Stack, VStack, useColorModeValue } from '@chakra-ui/react'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
+import { useContractRead } from 'wagmi';
+import { readContract } from '@wagmi/core';
+import axios from 'axios';
 const dataList = [
     {
       id: 1,
@@ -31,7 +34,115 @@ const dataList = [
     
   ];
 
+  type CampaignDetail = {
+    campaignId: number
+    campaignImage: string
+    campaignTitle: string
+    campaignDescription: string
+    campaignerWalletAddress: string
+    campaignScAddress: string
+  }
+  type Campaign = {
+    campaign_ID: number
+    campaign_image: any
+    campaign_title: string
+    campaign_description: string
+    poster_address: any
+  }
 function Campaigns() {
+
+  const [latestCid, setLatestCid] = useState<string>('')
+  const [allCampaigns, setallCampaigns] = useState<CampaignDetail[]>([])
+  const [noOfcampaigns, setNoOfcampaigns] = useState<number>(0)
+  const [isLoading, setIsLoading] = useState(true);
+
+
+
+  const getallCampaigns = async () => {
+    try {
+      const allCampaignsAddresses: any = await readContract({
+        address: BLOG_MANAGER_CONTRACT_ADDRESS,
+        abi: BLOG_MANAGER_ABI,
+        functionName: 'getcampaigns',
+      })
+
+      const allCampaigns: any = await readContract({
+        address: BLOG_MANAGER_CONTRACT_ADDRESS,
+        abi: BLOG_MANAGER_ABI,
+        functionName: 'getcampaignsData',
+        args: [allCampaignsAddresses],
+      })
+      setLatestCid(allCampaigns.campaignCID)
+      setNoOfcampaigns(allCampaigns.campaignerAddress.length)
+
+      let new_campaigns = []
+      //iterate and loop through the data retrieve from the blockchain
+      for (let i = 0; i < allCampaigns.campaignerAddress.length; i++) {
+        let campaignerWalletAddress: string = allCampaigns.campaignerAddress[i]
+        let noOfComments: number = allCampaigns.numberOfComments[i].toNumber()
+        let campaignSCAddress = allCampaignsAddresses[i]
+
+        //get campaignId
+        const campaignId: any = await readContract({
+          address: BLOG_MANAGER_CONTRACT_ADDRESS,
+          abi: BLOG_MANAGER_ABI,
+          functionName: 'campaignIds',
+          args: [campaignSCAddress],
+        })
+
+        if (allCampaigns.campaignCID !== 0) {
+          //get file data using axios from url
+          // const seeData = await getJSONFromCID(allCampaigns.campaignCID)
+          let config: any = {
+            method: 'get',
+            url: `https://${allCampaigns.campaignCID}.ipfs.w3s.link/campaign.json`,
+            headers: {},
+          }
+          const axiosResponse = await axios(config)
+
+          const campaignDataObject: Campaign[] = axiosResponse.data
+
+
+          const getCurrentcampaignTitle = campaignDataObject.filter(
+            (data) => data.campaign_ID === campaignId.toNumber(),
+          )[0].campaign_title
+          const getCurrentcampaignDescription = campaignDataObject.filter(
+            (data) => data.campaign_ID === campaignId.toNumber(),
+          )[0].campaign_description
+          const getCurrentcampaignImage = campaignDataObject.filter(
+            (data) => data.campaign_ID === campaignId.toNumber(),
+          )[0].campaign_image
+
+          //Data of each campaign
+          let newcampaign: CampaignDetail = {
+            campaignTitle: getCurrentcampaignTitle,
+            campaignImage: getCurrentcampaignImage,
+            campaignDescription: getCurrentcampaignDescription,
+            campaignId: campaignId.toNumber(),
+            campaignerWalletAddress, //user wallet address
+            campaignScAddress, //campaign smart contract address
+          }
+          new_campaigns.push(newcampaign)
+        }
+      }
+      setallCampaigns(new_campaigns)
+    } catch (error) {
+      console.log(error)
+    }
+  }
+  useEffect(() => {
+    getallCampaigns();
+    const timeout = setTimeout(() => {
+      
+      setIsLoading(false);
+    }, 4500);
+
+    // Cleanup function to clear the timeout when the component unmounts
+    return () => clearTimeout(timeout);
+   
+
+  }, [noOfcampaigns])
+
   return (
     <>
     
@@ -57,7 +168,7 @@ function Campaigns() {
                 
 
               </Box>
-              <Link href="#" >
+              <Link href={`campaign/1`} >
                 <Box
                   borderWidth="1px"
                   shadow="md"

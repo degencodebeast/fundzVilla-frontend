@@ -1,0 +1,5 @@
+export const CAMPAIGN_MANAGER = ""
+export const CAMPAIGN_MANAGER_ABI = ""
+export const CAMPAIGN_ABI=""
+export const DAO_CONTRACT=""
+export const DAO_ABI=""
