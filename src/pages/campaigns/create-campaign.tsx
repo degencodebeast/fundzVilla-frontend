@@ -33,13 +33,13 @@ const CampaignForm = () => {
       <Center>
         <Stack spacing={4}>
           <Stack align="center">
-            <Heading fontSize="2xl">Create Campaign</Heading>
+            <Heading  color={'white'} fontSize="2xl">Create Campaign</Heading>
           </Stack>
           <VStack
             as="form"
             boxSize={{ base: 'xs', sm: 'sm', md: 'md' }}
             h="max-content !important"
-            bg={useColorModeValue('white', 'gray.700')}
+            bg={useColorModeValue('gray.700', 'gray.700')}
             rounded="lg"
             boxShadow="lg"
             p={{ base: 5, sm: 10 }}

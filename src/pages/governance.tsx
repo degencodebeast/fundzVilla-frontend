@@ -40,7 +40,7 @@ function Campaigns() {
     <main
       className={`main-color flex min-h-screen flex-col items-center justify-between p-24 `}
     >
-        <Text fontWeight={20} fontSize={27} > VOTE ON CAMPAIGNS AUTHENTICITY</Text>
+        <Text fontWeight={20} color={'white'} fontSize={27} > VOTE ON CAMPAIGNS AUTHENTICITY</Text>
         <Text
                       mt="1"
                       fontWeight="semibold"
@@ -111,6 +111,7 @@ function Campaigns() {
                         letterSpacing="wide"
                         textTransform="uppercase"
                         ml="2"
+                        color={'white'}
                         
                       >
                         {blog.title}
@@ -122,7 +123,7 @@ function Campaigns() {
                           {blog.authorName}
                         </Badge>
                       </Box>
-                      <Text mt={1} color="white.200" ml={1}><strong>{blog.target} USDT</strong> </Text>
+                      <Text mt={1} color="white" ml={1}><strong>{blog.target} USDT</strong> </Text>
                     </Box>
                     <Text
                       mt="1"
@@ -141,6 +142,7 @@ function Campaigns() {
                       lineHeight="tight"
                       color="gray.600"
                       fontSize="sm"
+
                     >
                       Relevant Links
                     </Text>
