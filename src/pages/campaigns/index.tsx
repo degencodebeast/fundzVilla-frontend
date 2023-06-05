@@ -1,6 +1,6 @@
 import { Inter } from 'next/font/google'
 import { Features, Footer, Hero, Navbar, Sponsors } from '@/components'
-import { Image, Badge, Box, Button, Center, Text, Checkbox, Container, FormControl, FormLabel, Heading, Input, InputGroup, InputRightElement, SimpleGrid, Stack, VStack, useColorModeValue } from '@chakra-ui/react'
+import { Image, Badge, Box, Button, Center, Text, Checkbox, Container, FormControl, FormLabel, Heading, Input, InputGroup, InputRightElement, SimpleGrid, Stack, VStack, useColorModeValue, chakra } from '@chakra-ui/react'
 import { useEffect, useState } from 'react'
 import Link from 'next/link'
 import { useContractRead } from 'wagmi';
@@ -162,6 +162,30 @@ function Campaigns() {
     >
         <Text color={'white'} fontWeight={20} fontSize={27} > CAMPAIGNS</Text>
         <div>
+          <Link href={'/campaigns/create-campaign'}>
+          
+        <chakra.button
+              w={{ base: '100%', sm: 'auto' }}
+              textAlign={'center'}
+
+            
+              h={12}
+              px={6}
+              mt={5}
+              color="white"
+              rounded="md"
+              mb={{ base: 2, sm: 0 }}
+              zIndex={5}
+              lineHeight={1}
+              bgGradient="linear(to-l, #0ea5e9,#2563eb)"
+              _hover={{ bgGradient: 'linear(to-l, #0ea5e9,#2563eb)', opacity: 0.9 }}
+            >
+           <chakra.span> Create Campaign </chakra.span>
+            
+            </chakra.button>
+            </Link>
+        </div>
+        <div>
         <Container maxWidth="1200px" mx="auto" my="auto" p={{ base: 5, md: 10 }}>
       <SimpleGrid columns={[1, 2, 3]} spacing="20px">
         {allCampaigns.map((campaign) => {
@@ -196,7 +220,7 @@ function Campaigns() {
                   position="relative"
                   
                 >
-                  <Image  src={`https://ipfs.io/ipfs/${campaign.coverImage}`} alt="Blog image" />
+                  <Image   boxSize='338px'  src={`https://ipfs.io/ipfs/${campaign.coverImage}`} alt="campaign image" />
                   <Box p={{ base: 4, lg: 6 }}>
                     <Box display="flex" alignItems="baseline">
                       <Box

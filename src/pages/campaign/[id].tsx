@@ -26,6 +26,14 @@ import {
   Spinner,
   useToast,
   Input,
+  Avatar,
+  FormErrorMessage,
+  FormHelperText,
+  ModalCloseButton,
+  ModalFooter,
+  ModalHeader,
+  Stack,
+  useDisclosure,
 } from '@chakra-ui/react'
 import { Navbar } from '@/components'
 import { useRouter } from 'next/router'
@@ -52,6 +60,7 @@ const token =
   }
 
 export const Campaign = () => {
+  const { isOpen, onOpen, onClose } = useDisclosure()
   const router = useRouter()
 
   const campaignAddr = router.query.addr as Address
@@ -64,12 +73,7 @@ export const Campaign = () => {
 
   const [postCID, setPostCID] = useState('')
   const [campaign, setCampaign] = useState<any>({})
-
-
-
-  const [comments, setComments] = useState<Comment[]>([])
-
-  const [description, setDescription] = useState('')
+  const [amount, setAmount] = useState('')
  
 
   const getCampaignData = async () => {
@@ -137,22 +141,23 @@ export const Campaign = () => {
   
    const makeDonation = async() => {
     try {
-      console.log(`CLICKE`)
-      const _amount  = '100';
-      const id = Number(campaign.campaignId)
-     
-
+      const _amount = parseEther(amount)
       const { hash } = await writeContract({
         address: '0x52B3BA8ca46ae59FF43F0b9A04Dd32384e032Ecc',
         abi: CAMPAIGN_MANAGER_ABI,
         functionName: 'Donate',
-        args: [ campaign.campaignId, _amount],
-        value: parseEther(_amount),
+        args: [ campaign.campaignId, Number(amount)],
+        value: _amount,
       })
+
+      toast.success('Donation Successfull');
+      setAmount('');
+      onClose()
     
       
     } catch (error) {
       console.log(error)
+      toast.error('Oops,,,,something went wrong')
     }  
    }
 
@@ -277,11 +282,8 @@ export const Campaign = () => {
             {/* <Text>Posted: 2023-04-06T19:01:27Z</Text> */}
             {campaign.campaignOwner == account.address && (
             <>
-            <div>
+           
             <Button onClick={withdrawCampaignFunds} size={'md'} width={'auto'}>Withdraw Funds</Button>
-
-
-            </div>
             </>
              )}
             
@@ -294,7 +296,7 @@ export const Campaign = () => {
           <Heading as="h2">Amount Raised: 50 / {campaign.campaignTarget} USDT</Heading>
           <Text as="p" fontSize="lg" width={'89%'}>
             Want to support this campaign? <br />
-            <Button onClick={makeDonation}>Donate</Button>
+            <Button onClick={onOpen}>Donate</Button>
           </Text>
         </VStack>
         <Divider marginTop="5" mb={5} />
@@ -306,17 +308,41 @@ export const Campaign = () => {
               <Text>Amount: </Text>
               <Divider marginTop="5" mb={5} />
 
-        {comments.map((data) => {
         
-          return (
-            <>
-              <Text>Donation by: </Text>
-              <Text>Message: </Text>
-              <Divider marginTop="5" mb={5} />
-            </>
-          )
-        })}
         <Divider marginTop="5" mb={5} />
+        <Modal blockScrollOnMount={false} isOpen={isOpen} onClose={onClose}>
+        <ModalOverlay />
+        <ModalContent>
+          <ModalHeader>Donate</ModalHeader>
+          <ModalCloseButton />
+          <ModalBody>
+           
+            <FormControl id="userName" isRequired>
+              <FormLabel>Amount</FormLabel>
+              <Input
+                placeholder="Enter Amount in cUSD"
+                _placeholder={{ color: 'gray.500' }}
+                type="text"
+                required
+                onChange={(e) => {
+                  setAmount(e.target.value)
+                }}
+              />
+            </FormControl>
+
+           
+          </ModalBody>
+
+          <ModalFooter>
+            <Button colorScheme="blue" mr={3} onClick={onClose}>
+              Close
+            </Button>
+            <Button variant="ghost" onClick={makeDonation}>
+             Donate
+            </Button>
+          </ModalFooter>
+        </ModalContent>
+      </Modal>
 
         
 
