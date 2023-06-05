@@ -18,8 +18,8 @@ interface ISponsor {
 
 const sponsors: ISponsor[] = [
   {
-    heading: 'Hack On Chain',
-    content: 'HackOnchain2023.',
+    heading: 'Celo Developers',
+    content: 'Devs  .',
     icon: (
       <svg
         width={36}
@@ -39,8 +39,8 @@ const sponsors: ISponsor[] = [
     )
   },
   {
-    heading: 'Mantle',
-    content: 'Smart Contract.',
+    heading: 'Social Connect',
+    content: 'Authentiction.',
     icon: (
       <svg
         width={36}
@@ -60,8 +60,8 @@ const sponsors: ISponsor[] = [
     )
   },
   {
-    heading: 'KeyP',
-    content: 'Authentiction.',
+    heading: 'Masa Finance',
+    content: 'Soul names.',
     icon: (
       <svg
         width={36}

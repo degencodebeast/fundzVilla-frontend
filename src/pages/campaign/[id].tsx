@@ -30,209 +30,165 @@ import {
 import { Navbar } from '@/components'
 import { useRouter } from 'next/router'
 import { Web3Storage } from 'web3.storage'
-import { readContract } from '@wagmi/core'
+import { getAccount, readContract } from '@wagmi/core'
 import { Address } from 'wagmi'
+import toast, { Toaster } from "react-hot-toast";
 import axios from 'axios'
-import { getAccount, prepareWriteContract, writeContract } from '@wagmi/core'
+import { prepareWriteContract, writeContract } from '@wagmi/core'
+import { ethers, parseEther } from "ethers";
+import { CAMPAIGN_ABI, CAMPAIGN_MANAGER_ABI } from '@/constants/contract';
+import { useContractWrite, useNetwork,  } from "wagmi";
 
 const token =
   'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJkaWQ6ZXRocjoweEQyQkNCYTBDQzMyMDJjMmZkQkUzMjFhZjdmODBiOEQ2NzZCRTkyOTciLCJpc3MiOiJ3ZWIzLXN0b3JhZ2UiLCJpYXQiOjE2Nzk4OTI0NzE5OTYsIm5hbWUiOiJUb2tlbiJ9.QQbjt0glkuKqkJ-C4-5q8LOGUFIIhjaIX7FZHohSQhw'
 
-type Comment = {
-  comment_address: Address
-  comment_content: string
-}
-
-type Post = {
-  post_ID: number
-  post_image: any
-  post_title: string
-  post_description: string
-  post_content: string
-  post_category: string
-  poster_address: any
-  comments: Comment[]
-}
+  type Campaign = {
+    campaign_ID: number
+    coverImage: any
+    campaignName: string
+    campaign_description: string
+    poster_address: any
+    projectDetails: any
+  }
 
 export const Campaign = () => {
   const router = useRouter()
 
-  const post = router.query.postSCAddress as Address
-  const post_id = router.query.post_Id as string
-  const toast = useToast()
+  const campaignAddr = router.query.addr as Address
+
+  const account = getAccount();
+
+ 
+  
 
 
   const [postCID, setPostCID] = useState('')
-  const [latestCID, setLatestCID] = useState('')
-  const [loading, setLoading] = useState(false)
-  const [title, setTitile] = useState('')
-  const [body, setBody] = useState('')
-  const [imageUrl, setImageUrl] = useState('')
-  const [author, setAuthor] = useState('')
-  const [numberOfComments, setNumberOfcomments] = useState(0)
-  const [commentContent, setCommentContent] = useState('')
-  const [currentPostData, setCurrentPostData] = useState<Post>({
-    post_ID: 0,
-    post_image: '',
-    post_title: '',
-    post_description: '',
-    post_content: '',
-    post_category: '',
-    poster_address: '',
-    comments: [],
-  })
+  const [campaign, setCampaign] = useState<any>({})
+
+
+
   const [comments, setComments] = useState<Comment[]>([])
 
   const [description, setDescription] = useState('')
-  const toastError = (msg: string) => {
-    return toast({
-      title: msg,
-      status: 'error',
-      duration: 9000,
-      isClosable: true,
-    })
-  }
+ 
 
-  const toastSuccess = (msg: string, description: string) => {
-    return toast({
-      title: msg,
-      description: description,
-      status: 'success',
-      duration: 5000,
-      isClosable: true,
-    })
-  }
+  const getCampaignData = async () => {
 
-  const getPostData = async () => {
-    
     try {
-//       if(!post) {
-//         router.push('/')
-//       }
-//       const postCID: any = await readContract({
-//         address: post,
-//         abi: BLOG_POST_ABI,
-//         functionName: 'postCID',
-//       })
-//       setPostCID(postCID)
-//       const numComments: any = await readContract({
-//         address: post,
-//         abi: BLOG_POST_ABI,
-//         functionName: 'commentListLength',
-//       })
-//       setNumberOfcomments(numComments.toNumber())
 
-//       const comments: any = await readContract({
-//         address: post,
-//         abi: BLOG_POST_ABI,
-//         functionName: 'getComments',
-//       })
-//       console.log(comments)
-//       let new_comment = []
-//       for (let i = 0; i < comments.length; i++) {
-//         console.log(`COmment1`, comments[i])
-
-//         let config: any = {
-//           method: 'get',
-//           url: `https://${comments[i]}.ipfs.w3s.link/post.json`,
-//           headers: {},
-//         }
-//         const axiosResponse = await axios(config)
-//         const data = axiosResponse.data
-
-//         const commentData: Comment = {
-//           comment_address: data.comment_address,
-//           comment_content: data.comment_content,
-//         }
-//         new_comment.push(commentData)
-//       }
-//       setComments(new_comment)
-    } catch (error) {
-      console.log(error)
-    }
-  }
-
-  const getPostDetails = async () => {
-    try {
-      let config: any = {
-        method: 'get',
-        url: `https://${postCID}.ipfs.w3s.link/post.json`,
-        headers: {},
+      const campaignCID: any = await readContract({
+        address: campaignAddr,
+        abi: CAMPAIGN_ABI,
+        functionName: 'campaignCID',
+      })
+      const campaignId: any = await readContract({
+        address: campaignAddr,
+        abi: CAMPAIGN_ABI,
+        functionName: 'id',
+      })
+      const campaignOwner: any = await readContract({
+        address: campaignAddr,
+        abi: CAMPAIGN_ABI,
+        functionName: 'owner',
+      })
+      const campaignTarget: any = await readContract({
+        address: campaignAddr,
+        abi: CAMPAIGN_ABI,
+        functionName: 'target',
+      })
+      if(campaignCID) {
+        let config: any = {
+          method: 'get',
+          url: `https://${campaignCID}.ipfs.w3s.link/obj.json`,
+          headers: {},
+        }
+        const axiosResponse = await axios(config)
+  
+        const campaignDataObject: Campaign = axiosResponse.data
+  
+  
+        
+        const new_campaigns = [];
+        
+        const CampaignObj = {
+          campaignId: Number(campaignId),
+          campaignOwner: campaignOwner,
+          campaignTarget: Number(campaignTarget),
+          campaignTitle: campaignDataObject.campaignName,
+          campaignDescription: campaignDataObject.projectDetails,
+          coverImage: campaignDataObject.coverImage,
+          campaignScAddress: campaignAddr,
+          isVerified: false,
+        }
+        
+        setCampaign(CampaignObj);
       }
-      const axiosResponse = await axios(config)
-      const data = axiosResponse.data[post_id]
-      setCurrentPostData(data)
-      setTitile(data.post_title)
-      setBody(data.post_content)
-      setImageUrl(data.post_image)
-      setDescription(data.post_description)
-      setAuthor(data.poster_address)
+  
+  
+        
+      
+    } catch (error) {
+
+      console.log(error)
+      
+    }
+    
+  }
+  
+   const makeDonation = async() => {
+    try {
+      console.log(`CLICKE`)
+      const _amount  = '100';
+      const id = Number(campaign.campaignId)
+     
+
+      const { hash } = await writeContract({
+        address: '0x52B3BA8ca46ae59FF43F0b9A04Dd32384e032Ecc',
+        abi: CAMPAIGN_MANAGER_ABI,
+        functionName: 'Donate',
+        args: [ campaign.campaignId, _amount],
+        value: parseEther(_amount),
+      })
+    
+      
     } catch (error) {
       console.log(error)
-    }
-  }
+    }  
+   }
 
+   const withdrawCampaignFunds = async()=> {
 
-  const postComment = async (e: any) => {
-    e.preventDefault();
-    try {
-      setLoading(true)
-    const account = getAccount();
-    if(!account) {
-      return alert(`Please connect your wallet`)
-    }
-    const storage = new Web3Storage({ token })
-    const userComment = {
-      comment_address: account.address as Address,
-      comment_content: commentContent,
-    }
-
-    //store new JSON object in IPFS
-    const buffer = Buffer.from(JSON.stringify(userComment))
-
-    const newfile = [new File([buffer], 'post.json')]
-    const newCid = await storage.put(newfile)
-    console.log(`Posted comment to: `, newCid)
-
-    // const configure = await prepareWriteContract({
-    //   address: BLOG_MANAGER_CONTRACT_ADDRESS,
-    //   abi: BLOG_MANAGER_ABI,
-    //   functionName: 'addComment',
-    //   args: [newCid, post],
-    // })
-    // const data = await writeContract(configure)
-
-    // const tx = await data.wait()
-    toastSuccess('Comment Added', 'Successfully added comment')
-    getPostDetails()
-    getPostData
-    
-    setLoading(false)
-    setCommentContent('');
+    const { hash } = await writeContract({
+      address: campaignAddr,
+      abi: CAMPAIGN_ABI,
+      functionName: 'claim',
       
-    } catch (error) {
-      toastError('Oops!, something went wrong, please try again')
-      setLoading(false)
+    })
+
+   }
+
+ 
 
 
-      
-    }
-    
-  }
 
+  
+
+
+ 
   useEffect(() => {
     const updateData = async ()=>{
-      await getPostData()
-      await getPostDetails()
+            await getCampaignData()
     }
     updateData();
     
-  }, )
+  },  )
 
   return (
     <>
       <Navbar />
-      <Modal
+      <Toaster />
+
+      {/* <Modal
         isOpen={loading}
         onClose={() => {
           !loading
@@ -253,14 +209,14 @@ export const Campaign = () => {
             </Center>
           </ModalBody>
         </ModalContent>
-      </Modal>
+      </Modal> */}
 
       <main
       className={`main-color flex min-h-screen flex-col items-center justify-between p-24 `}
     >
 
       <Container maxW={'7xl'} p="12">
-        <Heading as="h6">Campaign</Heading>
+        <Heading as="h6">Campaigns</Heading>
         <Box
           marginTop={{ base: '1', sm: '5' }}
           display="flex"
@@ -283,7 +239,7 @@ export const Campaign = () => {
               <Link textDecoration="none" _hover={{ textDecoration: 'none' }}>
                 <Image
                   borderRadius="lg"
-                  src={`https://ipfs.io/ipfs/${imageUrl}`}
+                  src={`https://ipfs.io/ipfs/${campaign.coverImage}`}
                   alt="campaignBanner"
                   objectFit="contain"
                 />
@@ -305,7 +261,7 @@ export const Campaign = () => {
           >
             <Heading marginTop="1">
               <Link textDecoration="none" _hover={{ textDecoration: 'none' }}>
-                {title}
+                {campaign.campaignTitle}
               </Link>
             </Heading>
             <Text
@@ -314,31 +270,48 @@ export const Campaign = () => {
               color={useColorModeValue('gray.700', 'gray.200')}
               fontSize="lg"
             >
-              {description}
+              {campaign.campaignDescription}
             </Text>
             <Divider marginTop="5" mb={5} />
-            <Text>By: {author}</Text>
+            <Text>By: {campaign.campaignOwner}</Text>
             {/* <Text>Posted: 2023-04-06T19:01:27Z</Text> */}
+            {campaign.campaignOwner == account.address && (
+            <>
+            <div>
+            <Button onClick={withdrawCampaignFunds} size={'md'} width={'auto'}>Withdraw Funds</Button>
+
+
+            </div>
+            </>
+             )}
+            
           </Box>
         </Box>
 
         <Divider marginTop="5" />
 
         <VStack paddingTop="40px" spacing="2" alignItems="flex-start">
-          <Heading as="h2">{title}</Heading>
+          <Heading as="h2">Amount Raised: 50 / {campaign.campaignTarget} USDT</Heading>
           <Text as="p" fontSize="lg" width={'89%'}>
-            {body}
+            Want to support this campaign? <br />
+            <Button onClick={makeDonation}>Donate</Button>
           </Text>
         </VStack>
         <Divider marginTop="5" mb={5} />
-        <Heading> {numberOfComments} Donor(s)</Heading>
+        <Heading>Donor(s)</Heading>
+        <Text>Donation by: </Text>
+              <Text>Amount: </Text>
+              <Divider marginTop="5" mb={5} />
+              <Text>Donation by: </Text>
+              <Text>Amount: </Text>
+              <Divider marginTop="5" mb={5} />
 
         {comments.map((data) => {
         
           return (
             <>
-              <Text>Donation by: {data.comment_address}</Text>
-              <Text>Message: {data.comment_content} </Text>
+              <Text>Donation by: </Text>
+              <Text>Message: </Text>
               <Divider marginTop="5" mb={5} />
             </>
           )
@@ -347,17 +320,7 @@ export const Campaign = () => {
 
         
 
-        <FormControl mb={4}>
-          Donate 
-          <FormLabel>Donate : </FormLabel>
-          <Input
-            width={'50%'}
-            onChange={(e) => setCommentContent(e.target.value)}
-            placeholder='Amount'
-          />
-        </FormControl>
-        <Button onClick={postComment} type="submit" colorScheme="teal">
-        </Button>
+       
       </Container>
       </main>
     </>

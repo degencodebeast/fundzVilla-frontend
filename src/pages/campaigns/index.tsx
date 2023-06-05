@@ -1,7 +1,8 @@
 import { Inter } from 'next/font/google'
 import { Features, Footer, Hero, Navbar, Sponsors } from '@/components'
-import { Image, Badge, Box, Button, Center, Text, Checkbox, Container, FormControl, FormLabel, Heading, Input, InputGroup, InputRightElement, Link, SimpleGrid, Stack, VStack, useColorModeValue } from '@chakra-ui/react'
+import { Image, Badge, Box, Button, Center, Text, Checkbox, Container, FormControl, FormLabel, Heading, Input, InputGroup, InputRightElement, SimpleGrid, Stack, VStack, useColorModeValue } from '@chakra-ui/react'
 import { useEffect, useState } from 'react'
+import Link from 'next/link'
 import { useContractRead } from 'wagmi';
 import { readContract } from '@wagmi/core';
 import axios from 'axios';
@@ -177,7 +178,16 @@ function Campaigns() {
                 
 
               </Box>
-              <Link href={`campaign/1`} >
+              <Link 
+              href={{
+                       
+                        query: {
+                          addr: campaign.campaignScAddress,
+                          // campaignId: campaign.campaignID,
+                        },
+                        pathname: `/campaign/${campaign.campaignScAddress}`,
+                      }}
+               >
                 <Box
                   borderWidth="1px"
                   shadow="md"
