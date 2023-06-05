@@ -198,8 +198,6 @@ function Campaigns() {
                   Not Verified
                 </Badge>}
                
-               
-                
 
               </Box>
               <Link 
@@ -241,7 +239,7 @@ function Campaigns() {
                           {campaign.campaignOwner}
                         </Badge>
                       </Box>
-                      <Text mt={1} color="white" ml={1}><strong>{campaign.campaignTarget} BIT</strong> </Text>
+                      <Text mt={1} color="white" ml={1}><strong>{campaign.campaignTarget} cUSD</strong> </Text>
                     </Box>
                     <Text
                       mt="1"
