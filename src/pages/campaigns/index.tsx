@@ -185,7 +185,7 @@ console.log(masa.config)
     return () => clearTimeout(timeout);
    
 
-  },[allCampaigns] )
+  }, )
 
   return (
     <>      
