@@ -4,7 +4,7 @@ import { Image, Badge, Box, Button, Center, Text, Checkbox, Container, FormContr
 import { useEffect, useState } from 'react'
 import Link from 'next/link'
 import { useContractRead, useNetwork } from 'wagmi';
-import { getAccount, readContract } from '@wagmi/core';
+import { getAccount, getWalletClient, readContract } from '@wagmi/core';
 import axios from 'axios';
 import { CAMPAIGN_ABI, CAMPAIGN_MANAGER, CAMPAIGN_MANAGER_ABI } from '@/constants/contract';
 import { shortenAddress } from '@/helpers/shortenAddress'
@@ -12,6 +12,7 @@ import { getSoulNameByAddress } from '@/helpers'
 import { Masa } from '@masa-finance/masa-sdk'
 import { createWalletClient, custom } from 'viem'
 import { celoAlfajores } from 'viem/chains'
+import { Signer } from 'ethers'
 declare global {
   interface Window{
     ethereum: any
@@ -25,34 +26,7 @@ declare global {
 
 
 
-const dataList = [
-    {
-      id: 1,
-      title: 'Buy Me This House',
-      authorName: '0x1c5...e5957',
-      content: `Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.`,
-      isVerified: true,
-      target: 500,
-    },
-    {
-        id: 1,
-        title: 'Buy Me This House',
-        authorName: '0x1c5...e5957',
-        content: `Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.`,
-        isVerified: true,
-        target: 553,
-      },
-      {
-        id: 1,
-        title: 'Buy Me This House',
-        authorName: '0x1c5...e5957',
-        content: `Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.`,
-        isVerified: false,
-        target: 400,
-      },
-    
-    
-  ];
+
 
   type CampaignDetail = {
     campaignId: number
@@ -82,25 +56,25 @@ function Campaigns() {
   const [noOfcampaigns, setNoOfcampaigns] = useState<number>(0)
   const [isLoading, setIsLoading] = useState(true);
   const {chain} = useNetwork();
-  const currentAcc =  getAccount()
-
+  const currentAcc =  '0x7231D8CCF0bcF5678dB30730EfE18F21d520C379'
   const chainName: any = (chain?.name.toLowerCase())
 
- 
 
-    
-
-    
 
 
 
 
   const getallCampaigns = async () => {
+    const walletClient = await getWalletClient({
+      chainId: celoAlfajores.id,
+    })
+    const [account] = await window.ethereum.request({ method: 'eth_requestAccounts' })
+
     try {
 
 
     const masa = new Masa({
-      signer: currentAcc.address,
+      signer: account,
       environment: "dev",
       networkName: chainName,
     });
@@ -199,34 +173,26 @@ console.log(masa.config)
   }
  
   useEffect(() => {
-    async function getSignerFromMM() {
-          const [account] = await window.ethereum.request({ method: 'eth_requestAccounts' })
-          const masa = new Masa({
-            signer: account,
-            environment: "dev",
-            networkName: chainName,
-          });
-    }
-    getSignerFromMM();
+  
 
     getallCampaigns();
     const timeout = setTimeout(() => {
       
       setIsLoading(false);
-    }, 4500);
+    }, 4500);                                                                                                                                                                                 
 
     // Cleanup function to clear the timeout when the component unmounts
     return () => clearTimeout(timeout);
    
 
-  }, [chainName,  ])
+  },[allCampaigns] )
 
   return (
-    <>
+    <>      
     
     <Navbar/>
     <main
-      className={`main-color flex min-h-screen flex-col items-center justify-between p-24 `}
+      className={`main-color flex min-h-screen flex-col items-center justify-between p-24 `}                                                              
     >
         <Text color={'white'} fontWeight={20} fontSize={27} > CAMPAIGNS</Text>
         <div>

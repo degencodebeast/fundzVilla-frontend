@@ -43,8 +43,8 @@ import { Address } from 'wagmi'
 import toast, { Toaster } from "react-hot-toast";
 import axios from 'axios'
 import { prepareWriteContract, writeContract } from '@wagmi/core'
-import { ethers, parseEther } from "ethers";
-import { CAMPAIGN_ABI, CAMPAIGN_MANAGER_ABI } from '@/constants/contract';
+import {parseEther } from "viem";
+import { CAMPAIGN_ABI, CAMPAIGN_MANAGER, CAMPAIGN_MANAGER_ABI } from '@/constants/contract';
 import { useContractWrite, useNetwork,  } from "wagmi";
 
 const token =
@@ -141,13 +141,14 @@ export const Campaign = () => {
   
    const makeDonation = async() => {
     try {
-      const _amount = parseEther(amount)
+      const amt = amount as `${number}`
+      const _amount = parseEther(amt)
       const { hash } = await writeContract({
-        address: '0x52B3BA8ca46ae59FF43F0b9A04Dd32384e032Ecc',
+        address: CAMPAIGN_MANAGER,
         abi: CAMPAIGN_MANAGER_ABI,
         functionName: 'Donate',
         args: [ campaign.campaignId, Number(amount)],
-        value: _amount,
+        
       })
 
       toast.success('Donation Successfull');

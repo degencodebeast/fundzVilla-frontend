@@ -16,7 +16,7 @@ import { celoAlfajores, celo } from 'wagmi/chains';
 import { alchemyProvider } from 'wagmi/providers/alchemy';
 import { publicProvider } from 'wagmi/providers/public';
 import { usePublicClient } from 'wagmi'
-// import { MasaProvider } from '@/providers/masa-provider'
+import { createPublicClient, http } from 'viem'
 
 import { Masa } from "@masa-finance/masa-sdk";
 
@@ -45,7 +45,6 @@ const wagmiConfig = createConfig({
   autoConnect: true,
   connectors,
   publicClient,
-  webSocketPublicClient
 })
 
 
