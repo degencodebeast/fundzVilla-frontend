@@ -32,11 +32,11 @@ command:
 ```bash
 npm run dev
 ```
-## Deployed contract addresses on the Mantle Network
+## Deployed contract addresses on the Alfajores Celo Network
 
 ```bash
 Campaign Manager Contract: 
-0x52B3BA8ca46ae59FF43F0b9A04Dd32384e032Ecc
+0x520504faCDf81aB331284cdFCfD9D76da9e04a7f
 
 Governance Token Contract: 0xD2Ff3AC32A5479F53b6dc234866AD1d7cc69C0D9
 ```

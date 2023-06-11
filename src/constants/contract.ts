@@ -1,4 +1,4 @@
-export const CAMPAIGN_MANAGER = "0x52B3BA8ca46ae59FF43F0b9A04Dd32384e032Ecc"
+export const CAMPAIGN_MANAGER = "0x520504faCDf81aB331284cdFCfD9D76da9e04a7f"
 export const CAMPAIGN_MANAGER_ABI = [
     {
       "anonymous": false,

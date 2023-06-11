@@ -12,7 +12,6 @@ import { useContractWrite, useNetwork,  } from "wagmi";
 
 
 
-
 const client = new Web3Storage({
   token:
   'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJkaWQ6ZXRocjoweEQyQkNCYTBDQzMyMDJjMmZkQkUzMjFhZjdmODBiOEQ2NzZCRTkyOTciLCJpc3MiOiJ3ZWIzLXN0b3JhZ2UiLCJpYXQiOjE2Nzk4OTI0NzE5OTYsIm5hbWUiOiJUb2tlbiJ9.QQbjt0glkuKqkJ-C4-5q8LOGUFIIhjaIX7FZHohSQhw'
@@ -81,7 +80,7 @@ function CreateCampaign() {
       // const data = await writeContract(configure);
 
       const { hash } = await writeContract({
-        address: '0x52B3BA8ca46ae59FF43F0b9A04Dd32384e032Ecc',
+        address: '0x520504faCDf81aB331284cdFCfD9D76da9e04a7f',
         abi: CAMPAIGN_MANAGER_ABI,
         functionName: 'createCampaign',
         args: [objHash, _target],
@@ -100,6 +99,12 @@ function CreateCampaign() {
       // const data = await contractInst.createCampaign(objHash, _target)
       // data.wait()
      
+      
+      setCampaignName('')
+      setProjectDetails('')
+      setTarget('')
+      setCoverImage(null)
+      setLink('')
       toast.success('Campaign Successfully created!')
       setInTxn(false)
     } catch (error) {
@@ -156,7 +161,7 @@ function CreateCampaign() {
               </FormControl>
 
               <FormControl id="targ">
-                <FormLabel>Target (BIT)</FormLabel>
+                <FormLabel>Target (cUSD)</FormLabel>
                 <Input onChange={(e) => {
                     setTarget(e.target.value); 
                    

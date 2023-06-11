@@ -11,13 +11,97 @@ import {
   Skeleton,
   Box,
   Link,
-  Icon
+  Icon,
+  Modal,
+  FormControl,
+  FormLabel,
+  Input,
+  ModalBody,
+  ModalCloseButton,
+  ModalContent,
+  ModalFooter,
+  ModalHeader,
+  ModalOverlay,
+  useDisclosure
 } from '@chakra-ui/react';
 // Here we have used react-icons package for the icons
 import { GoChevronRight } from 'react-icons/go';
 import { MdBolt } from 'react-icons/md';
+import  { useCallback, useEffect, useMemo, useState } from 'react';
+import { NetworkName, PaymentMethod } from '@masa-finance/masa-sdk';
+import { Masa } from "@masa-finance/masa-sdk";
+import { providers } from "ethers";
+import { createWalletClient, custom } from 'viem'
+import { mainnet, celoAlfajores, celo } from 'viem/chains'
+import { useNetwork } from 'wagmi';
+import { getAccount } from '@wagmi/core';
 
-const Hero = () => {
+
+  
+
+  // Access window.ethereum here
+
+
+const Hero =  () => {
+  const { isOpen, onOpen, onClose } = useDisclosure();
+  const {chain} = useNetwork();
+  const addresss =  getAccount()
+
+//   const fertchNameorAddress = async() => {
+//     console.log('ser')
+//     const [account] = await window.ethereum.request({ method: 'eth_requestAccounts' })
+//     console.log(account)
+// const client = createWalletClient({
+//   account,
+//   chain: celoAlfajores,
+//   transport: custom(window.ethereum)
+// })
+// console.log('initia...')
+// const chainName: any = (chain?.name.toLowerCase())
+
+//  const masa = new Masa({
+//     signer: account,
+//     environment: "dev",
+//     networkName: chainName,
+//   });
+//   console.log(masa)
+// console.log(masa.config.network)
+
+
+
+//     const soulName = 'gabe.celo'
+//     const address = await masa.soulName.resolve(soulName);
+// console.log(addresss.address)
+//     const soul = await masa.soulName.list(address);
+//     console.log('SOULNAME: ', soul[0].tokenDetails.sbtName)
+
+ 
+// console.log('creating SoulName:::')
+// console.log(masa.config.signer)
+//    const createSoulNames = await masa.soulName.create('CELO', 'nonso', 1)
+//    console.log(createSoulNames)
+
+//     console.log('HERE: ',address)
+
+//     if (address) {
+//       console.log('HERE ADD: ',address);
+//     } else {
+//       console.error(`${soulName} does not exist!`);
+//     }
+
+//   }
+   
+
+  const [soulname, setSoulname] = useState<string>('');
+  const [extension, setExtension] = useState<string>();
+  const [loadingIsAvailable, setLoadingIsAvailable] = useState(false);
+  const [isAvailable, setIsAvailable] = useState<boolean>(true);
+  const [registrationPeriod, setRegistrationPeriod] = useState<number>(1);
+  const [registrationPrice, setRegistrationPrice] = useState<string>();
+
+  const [isLoadingMint, setLoadingMint] = useState(false);
+  const [showError, setShowError] = useState(false);
+  
   return (
     <Container maxW="6xl" px={{ base: 6, md: 3 }} py={24}>
       <Stack direction={{ base: 'column', md: 'row' }} justifyContent="center">
@@ -96,6 +180,7 @@ const Hero = () => {
             >
              Fund Projects
             </Box>
+            {/* <Button onClick={onOpen}>Donate</Button> */}
           </HStack>
         </Stack>
         <Box ml={{ base: 0, md: 5 }} pos="relative">
@@ -112,6 +197,52 @@ const Hero = () => {
           />
         </Box>
       </Stack>
+      {/* <Modal blockScrollOnMount={false} isOpen={isOpen} onClose={onClose}>
+        <ModalOverlay />
+        <ModalContent>
+          <ModalHeader>Donate</ModalHeader>
+          <ModalCloseButton />
+          <ModalBody>
+           
+            <FormControl id="userName" isRequired>
+              <FormLabel>SoulName</FormLabel>
+              <Input
+                placeholder="Enter Domain"
+                _placeholder={{ color: 'gray.500' }}
+                type="text"
+                required
+                onChange={(e) => {
+                  setSoulname(e.target.value)
+                }}
+              />
+            </FormControl>
+            <FormControl id="userName" isRequired>
+              <FormLabel>Duration</FormLabel>
+              <Input
+                placeholder="Enter Amount in cUSD"
+                _placeholder={{ color: 'gray.500' }}
+                type="text"
+                required
+                onChange={(e) => {
+                  const num = Number(e.target.value)
+                  setRegistrationPeriod(num)
+                }}
+              />
+            </FormControl>
+
+           
+          </ModalBody>
+
+          <ModalFooter>
+            <Button colorScheme="blue" mr={3} onClick={onClose}>
+              Close
+            </Button>
+            <Button variant="ghost" onClick={fertchNameorAddress}>
+             Donate
+            </Button>
+          </ModalFooter>
+        </ModalContent>
+      </Modal> */}
     </Container>
   );
 };

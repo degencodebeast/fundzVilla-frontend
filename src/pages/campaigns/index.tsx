@@ -3,10 +3,28 @@ import { Features, Footer, Hero, Navbar, Sponsors } from '@/components'
 import { Image, Badge, Box, Button, Center, Text, Checkbox, Container, FormControl, FormLabel, Heading, Input, InputGroup, InputRightElement, SimpleGrid, Stack, VStack, useColorModeValue, chakra } from '@chakra-ui/react'
 import { useEffect, useState } from 'react'
 import Link from 'next/link'
-import { useContractRead } from 'wagmi';
-import { readContract } from '@wagmi/core';
+import { useContractRead, useNetwork } from 'wagmi';
+import { getAccount, readContract } from '@wagmi/core';
 import axios from 'axios';
 import { CAMPAIGN_ABI, CAMPAIGN_MANAGER, CAMPAIGN_MANAGER_ABI } from '@/constants/contract';
+import { shortenAddress } from '@/helpers/shortenAddress'
+import { getSoulNameByAddress } from '@/helpers'
+import { Masa } from '@masa-finance/masa-sdk'
+import { createWalletClient, custom } from 'viem'
+import { celoAlfajores } from 'viem/chains'
+declare global {
+  interface Window{
+    ethereum: any
+  }
+}
+
+
+
+
+
+
+
+
 const dataList = [
     {
       id: 1,
@@ -39,6 +57,7 @@ const dataList = [
   type CampaignDetail = {
     campaignId: number
     coverImage: string
+    soulName: string
     isVerified: boolean
     campaignTitle: string
     campaignTarget: string
@@ -49,6 +68,7 @@ const dataList = [
   type Campaign = {
     campaign_ID: number
     coverImage: any
+    soulName: string
     campaignName: string
     campaign_description: string
     poster_address: any
@@ -57,18 +77,42 @@ const dataList = [
 function Campaigns() {
 
   const [allCampaigns, setallCampaigns] = useState<any[]>([])
+  // const [masa, setMasa] = useState<any>()
+
   const [noOfcampaigns, setNoOfcampaigns] = useState<number>(0)
   const [isLoading, setIsLoading] = useState(true);
+  const {chain} = useNetwork();
+  const currentAcc =  getAccount()
+
+  const chainName: any = (chain?.name.toLowerCase())
+
+ 
+
+    
+
+    
+
 
 
 
   const getallCampaigns = async () => {
     try {
+
+
+    const masa = new Masa({
+      signer: currentAcc.address,
+      environment: "dev",
+      networkName: chainName,
+    });
+    
+
       const allCampaignsAddresses: any = await readContract({
         address: CAMPAIGN_MANAGER,
         abi: CAMPAIGN_MANAGER_ABI,
         functionName: 'getAllCampaigns',
       })
+console.log(masa.config)
+      console.log(masa.config.networkName)
 
       console.log('HERE: ', allCampaignsAddresses);
 
@@ -107,11 +151,22 @@ function Campaigns() {
 
           const campaignDataObject: Campaign = axiosResponse.data
 
-          console.log(campaignDataObject)
+          
+      const soul = await masa.soulName.list(campaignOwner);
+      let SOULNAME = '';
+      if (soul[0]) {
+        
+
+        SOULNAME = soul[0].tokenDetails.sbtName
+      }
+    
+
+
           
           const CampaignObj = {
             campaignId: Number(campaignId),
             campaignOwner: campaignOwner,
+            soulname: SOULNAME,
             campaignTarget: Number(campaignTarget),
             campaignTitle: campaignDataObject.campaignName,
             campaignDescription: campaignDataObject.projectDetails,
@@ -119,7 +174,7 @@ function Campaigns() {
             campaignScAddress: allCampaignsAddresses[i],
             isVerified: false,
           }
-          console.log(CampaignObj)
+          console.log('here',CampaignObj)
 
           new_campaigns.push(CampaignObj)
 
@@ -139,8 +194,21 @@ function Campaigns() {
     } catch (error) {
       console.log(error)
     }
+
+   
   }
+ 
   useEffect(() => {
+    async function getSignerFromMM() {
+          const [account] = await window.ethereum.request({ method: 'eth_requestAccounts' })
+          const masa = new Masa({
+            signer: account,
+            environment: "dev",
+            networkName: chainName,
+          });
+    }
+    getSignerFromMM();
+
     getallCampaigns();
     const timeout = setTimeout(() => {
       
@@ -151,7 +219,7 @@ function Campaigns() {
     return () => clearTimeout(timeout);
    
 
-  }, [noOfcampaigns])
+  }, [chainName,  ])
 
   return (
     <>
@@ -225,7 +293,7 @@ function Campaigns() {
                         fontWeight="semibold"
                         as="h2"
                         letterSpacing="wide"
-                        textTransform="uppercase"
+                       
                         ml="2"
                         color={'white'}
                         
@@ -235,8 +303,8 @@ function Campaigns() {
                     </Box>
                     <Box>
                       <Box color="gray.600" fontSize="sm">
-                        <Badge rounded="full" px="2" colorScheme="teal">
-                          {campaign.campaignOwner}
+                        <Badge textTransform={'lowercase'} rounded="full" px="2" colorScheme="teal">
+                          {campaign.soulname ||shortenAddress(campaign.campaignOwner)}
                         </Badge>
                       </Box>
                       <Text mt={1} color="white" ml={1}><strong>{campaign.campaignTarget} cUSD</strong> </Text>
