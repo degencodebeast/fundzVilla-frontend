@@ -36,60 +36,72 @@ import { mainnet, celoAlfajores, celo } from 'viem/chains'
 import { useNetwork } from 'wagmi';
 import { getAccount } from '@wagmi/core';
 
-
-  
-
-  // Access window.ethereum here
-
-
 const Hero =  () => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const {chain} = useNetwork();
   const addresss =  getAccount()
 
-//   const fertchNameorAddress = async() => {
-//     console.log('ser')
-//     const [account] = await window.ethereum.request({ method: 'eth_requestAccounts' })
-//     console.log(account)
-// const client = createWalletClient({
-//   account,
-//   chain: celoAlfajores,
-//   transport: custom(window.ethereum)
-// })
-// console.log('initia...')
-// const chainName: any = (chain?.name.toLowerCase())
+  const fertchNameorAddress = async() => {
 
-//  const masa = new Masa({
-//     signer: account,
-//     environment: "dev",
-//     networkName: chainName,
-//   });
-//   console.log(masa)
-// console.log(masa.config.network)
-
-
-
-//     const soulName = 'gabe.celo'
-//     const address = await masa.soulName.resolve(soulName);
-// console.log(addresss.address)
-//     const soul = await masa.soulName.list(address);
-//     console.log('SOULNAME: ', soul[0].tokenDetails.sbtName)
-
+const provider = new providers.Web3Provider(window.ethereum);
+const signer = provider.getSigner()
+console.log(signer._address)
  
-// console.log('creating SoulName:::')
-// console.log(masa.config.signer)
-//    const createSoulNames = await masa.soulName.create('CELO', 'nonso', 1)
-//    console.log(createSoulNames)
 
-//     console.log('HERE: ',address)
 
-//     if (address) {
-//       console.log('HERE ADD: ',address);
-//     } else {
-//       console.error(`${soulName} does not exist!`);
-//     }
+    const [account] = await window.ethereum.request({ method: 'eth_requestAccounts' })
+    
 
-//   }
+ const masa = new Masa({
+    signer: signer,
+    environment: "dev",
+    networkName: 'alfajores',
+  });
+  const result = await masa.session.login()
+  const isLoggedIn = await masa.session.checkLogin()
+
+  if  (isLoggedIn) {
+    const checkId = await masa.identity.load(signer._address)
+
+    if(checkId.identityId) {
+      console.log('creating soulname')
+      const createSoulNames = await masa.soulName.create('CELO', 'ayo', 1, undefined, 'style')
+      console.log(createSoulNames)
+      await masa.session.logout();
+  
+     }else {
+      console.log('No ID:: creating with ID')
+      const createWithId = await masa.identity.createWithSoulName('CELO', 'ayo', 1, 'style')
+      console.log(createWithId)
+      await masa.session.logout()
+
+     }
+  
+  }
+
+
+
+
+
+
+  //  const createSoulNames = await masa.soulName.create('CELO', 'nomy', 1)
+  //  if(createSoulNames.success == false) {
+  //   const createWithId = await masa.identity.create()
+  //   console.log(createWithId)
+  //   const createSoulNames = await masa.soulName.create('CELO', 'Bobby', 1)
+
+  //  }
+  //  console.log('Created SOUL', createSoulNames)
+    
+
+  
+  //  console.log(await masa.session.checkLogin())
+
+
+
+
+   
+  }
    
 
   const [soulname, setSoulname] = useState<string>('');
@@ -180,7 +192,7 @@ const Hero =  () => {
             >
              Fund Projects
             </Box>
-            {/* <Button onClick={onOpen}>Donate</Button> */}
+            {/* <Button onClick={onOpen}>Create Soulname</Button> */}
           </HStack>
         </Stack>
         <Box ml={{ base: 0, md: 5 }} pos="relative">
@@ -197,10 +209,10 @@ const Hero =  () => {
           />
         </Box>
       </Stack>
-      {/* <Modal blockScrollOnMount={false} isOpen={isOpen} onClose={onClose}>
+      <Modal blockScrollOnMount={false} isOpen={isOpen} onClose={onClose}>
         <ModalOverlay />
         <ModalContent>
-          <ModalHeader>Donate</ModalHeader>
+          <ModalHeader>Create SoulName</ModalHeader>
           <ModalCloseButton />
           <ModalBody>
            
@@ -242,7 +254,7 @@ const Hero =  () => {
             </Button>
           </ModalFooter>
         </ModalContent>
-      </Modal> */}
+      </Modal>
     </Container>
   );
 };

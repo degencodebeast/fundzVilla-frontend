@@ -65,9 +65,7 @@ function Campaigns() {
 
 
   const getallCampaigns = async () => {
-    const walletClient = await getWalletClient({
-      chainId: celoAlfajores.id,
-    })
+   
     const [account] = await window.ethereum.request({ method: 'eth_requestAccounts' })
 
     try {

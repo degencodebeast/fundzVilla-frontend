@@ -58,12 +58,22 @@ import {
               {navLinks.map((link, index) => (
                 <NavLink key={index} {...link} onClose={onClose} />
               ))}
-  
+
             
-            </HStack>
-          </HStack>
   
-          <ConnectButton/>
+       
+            </HStack>
+           
+            
+          </HStack>
+          <HStack as="nav"display={{ base: 'none', md: 'flex' }} mt={5}>
+            <ConnectButton   showBalance={false} />
+  
+
+            </HStack>
+            
+         
+       
           <IconButton
             size="md"
             icon={isOpen ? <AiOutlineClose /> : <GiHamburgerMenu />}
@@ -87,7 +97,13 @@ import {
              
             </Stack>
 
-            <ConnectButton/>
+            <ConnectButton accountStatus={{
+              smallScreen: 'avatar',
+              largeScreen: 'full',
+            }}  showBalance={{
+              smallScreen: false,
+              largeScreen: true,
+               }}/>
           
           </Box>
          
