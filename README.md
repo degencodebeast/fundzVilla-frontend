@@ -56,10 +56,10 @@ command:
 npm run dev
 ```
 ## Deployed contract addresses on the Alfajores Celo Network
+*  Contract Repo: https://github.com/gabrieltemtsen/fundz-villa-contract
 
 ```bash
- Contract Repo: 
-https://github.com/gabrieltemtsen/fundz-villa-contract
+
 
 Campaign Manager Contract: 
 0x520504faCDf81aB331284cdFCfD9D76da9e04a7f
