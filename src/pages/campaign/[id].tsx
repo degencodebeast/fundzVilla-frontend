@@ -46,6 +46,8 @@ import { prepareWriteContract, writeContract } from '@wagmi/core'
 import {parseEther } from "viem";
 import { CAMPAIGN_ABI, CAMPAIGN_MANAGER, CAMPAIGN_MANAGER_ABI } from '@/constants/contract';
 import { useContractWrite, useNetwork,  } from "wagmi";
+import { Masa } from '@masa-finance/masa-sdk'
+import { shortenAddress } from '@/helpers/shortenAddress'
 
 const token =
   'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJkaWQ6ZXRocjoweEQyQkNCYTBDQzMyMDJjMmZkQkUzMjFhZjdmODBiOEQ2NzZCRTkyOTciLCJpc3MiOiJ3ZWIzLXN0b3JhZ2UiLCJpYXQiOjE2Nzk4OTI0NzE5OTYsIm5hbWUiOiJUb2tlbiJ9.QQbjt0glkuKqkJ-C4-5q8LOGUFIIhjaIX7FZHohSQhw'
@@ -79,7 +81,16 @@ export const Campaign = () => {
 
   const getCampaignData = async () => {
 
+    const [account] = await window.ethereum.request({ method: 'eth_requestAccounts' })
+
     try {
+
+
+    const masa = new Masa({
+      signer: account,
+      environment: "dev",
+      networkName: "alfajores",
+    });
 
       const campaignCID: any = await readContract({
         address: campaignAddr,
@@ -110,7 +121,13 @@ export const Campaign = () => {
         const axiosResponse = await axios(config)
   
         const campaignDataObject: Campaign = axiosResponse.data
+        const soul = await masa.soulName.list(campaignOwner);
+        let SOULNAME = '';
+        if (soul[0]) {
+          
   
+          SOULNAME = soul[0].tokenDetails.sbtName
+        }
   
         
         const new_campaigns = [];
@@ -118,6 +135,7 @@ export const Campaign = () => {
         const CampaignObj = {
           campaignId: Number(campaignId),
           campaignOwner: campaignOwner,
+          soulname: SOULNAME,
           campaignTarget: Number(campaignTarget),
           campaignTitle: campaignDataObject.campaignName,
           campaignDescription: campaignDataObject.projectDetails,
@@ -274,13 +292,13 @@ export const Campaign = () => {
             <Text
               as="p"
               marginTop="2"
-              color={useColorModeValue('gray.700', 'gray.200')}
+              color={useColorModeValue('white.700', 'white.200')}
               fontSize="lg"
             >
               {campaign.campaignDescription}
             </Text>
             <Divider marginTop="5" mb={5} />
-            <Text>By: {campaign.campaignOwner}</Text>
+            <Text>By:  {campaign.soulname }</Text>
             {/* <Text>Posted: 2023-04-06T19:01:27Z</Text> */}
             {campaign.campaignOwner == account.address && (
             <>
@@ -298,7 +316,10 @@ export const Campaign = () => {
           <Heading as="h2">Amount Raised: 50 / {campaign.campaignTarget} USDT</Heading>
           <Text as="p" fontSize="lg" width={'89%'}>
             Want to support this campaign? <br />
-            <Button onClick={onOpen}>Donate</Button>
+            <Button  
+            bgGradient="linear(to-l, #0ea5e9,#2563eb)"
+              _hover={{ bgGradient: 'linear(to-l, #0ea5e9,#2563eb)', opacity: 0.9 }} 
+              onClick={onOpen}>Donate</Button>
           </Text>
         </VStack>
         <Divider marginTop="5" mb={5} />

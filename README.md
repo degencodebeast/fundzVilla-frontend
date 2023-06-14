@@ -5,12 +5,35 @@ FundzVilla is a decentralized fundraising platform built on the principles of a 
 ### Live Demo
 https://fundz-villa.vercel.app/
 
+## Why Buidl FundzVilla
+FundzVilla aims at revolutionalizing Traditional Fundraising, introducing more community engagement, Transparency to fundraising processes
+and introducing a wider range for availability accross the globe. using blockchain technology the fundraising proccesed would be much better than
+Traditional fundraising bringing access to users arround the world.
+
+## Technology Stacks
+* NextJS
+* Wagmi & Rainbowkit
+* Solidity & Hardhat
+* IPFS & Web3 storage
+* Masa Finance SDK
+
+
+
 ## Features
 * Create and manage campaigns for fundraising.
 * Vote on Fraudulent Campaigns
 * Governance system for proposal creation and decision-making.
-
 * Easy setup and installation.
+
+## Challenges Encountered
+* Fetching Campaigns from the smart contract, looping through to retrieve the data from IPFS and displaying in the UI.
+* Dependency conflicts between ethers, viem, wagmi and rainbowkit due to the packages migrations.
+* Resolving soulnames on the alfajores celo network using Masa finance's Masa SDK.
+
+## Future  Plans
+* Implement a fully functional DAO for community members to create proposals that would build the community.
+* Deploy and Launch to Mainnet.
+
 
 ## Installation
 1. Clone the repository to your local machine: 

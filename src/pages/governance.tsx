@@ -5,34 +5,8 @@ import { useContractRead } from 'wagmi';
 import { readContract } from '@wagmi/core';
 import axios from 'axios';
 import { CAMPAIGN_ABI, CAMPAIGN_MANAGER, CAMPAIGN_MANAGER_ABI } from '@/constants/contract';
-const dataList = [
-    {
-      id: 1,
-      title: 'Buy Me This House',
-      authorName: '0x1c5...e5957',
-      content: `Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.`,
-      isVerified: false,
-      target: 500,
-    },
-    {
-        id: 2,
-        title: 'Buy Me This House',
-        authorName: '0x1c5...e5957',
-        content: `Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.`,
-        isVerified: true,
-        target: 553,
-      },
-      {
-        id: 3,
-        title: 'Buy Me This House',
-        authorName: '0x1c5...e5957',
-        content: `Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.`,
-        isVerified: false,
-        target: 400,
-      },
-    
-    
-  ];
+import { Masa } from '@masa-finance/masa-sdk'
+
   type CampaignDetail = {
     campaignId: number
     coverImage: string
@@ -61,12 +35,26 @@ function Campaigns() {
 
 
   const getallCampaigns = async () => {
+   
+    const [account] = await window.ethereum.request({ method: 'eth_requestAccounts' })
+
     try {
+
+
+    const masa = new Masa({
+      signer: account,
+      environment: "dev",
+      networkName: "alfajores",
+    });
+    
+
       const allCampaignsAddresses: any = await readContract({
         address: CAMPAIGN_MANAGER,
         abi: CAMPAIGN_MANAGER_ABI,
         functionName: 'getAllCampaigns',
       })
+console.log(masa.config)
+      console.log(masa.config.networkName)
 
       console.log('HERE: ', allCampaignsAddresses);
 
@@ -105,11 +93,22 @@ function Campaigns() {
 
           const campaignDataObject: Campaign = axiosResponse.data
 
-          console.log(campaignDataObject)
+          
+      const soul = await masa.soulName.list(campaignOwner);
+      let SOULNAME = '';
+      if (soul[0]) {
+        
+
+        SOULNAME = soul[0].tokenDetails.sbtName
+      }
+    
+
+
           
           const CampaignObj = {
             campaignId: Number(campaignId),
             campaignOwner: campaignOwner,
+            soulname: SOULNAME,
             campaignTarget: Number(campaignTarget),
             campaignTitle: campaignDataObject.campaignName,
             campaignDescription: campaignDataObject.projectDetails,
@@ -117,7 +116,7 @@ function Campaigns() {
             campaignScAddress: allCampaignsAddresses[i],
             isVerified: false,
           }
-          console.log(CampaignObj)
+          console.log('here',CampaignObj)
 
           new_campaigns.push(CampaignObj)
 
@@ -137,6 +136,8 @@ function Campaigns() {
     } catch (error) {
       console.log(error)
     }
+
+   
   }
   useEffect(() => {
     getallCampaigns();
@@ -207,7 +208,7 @@ function Campaigns() {
                 
 
               </Box>
-              <Link href={`campaign/1`} >
+              <Link href={`#`} >
                 <Box
                   borderWidth="1px"
                   shadow="md"
@@ -216,7 +217,7 @@ function Campaigns() {
                   position="relative"
                   
                 >
-                  <Image  src={`https://ipfs.io/ipfs/${campaign.coverImage}`} alt="Blog image" />
+                  <Image  boxSize='338px'  src={`https://ipfs.io/ipfs/${campaign.coverImage}`} alt="Blog image" />
                   <Box p={{ base: 4, lg: 6 }}>
                     <Box display="flex" alignItems="baseline">
                       <Box
