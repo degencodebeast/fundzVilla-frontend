@@ -41,67 +41,68 @@ const Hero =  () => {
   const {chain} = useNetwork();
   const addresss =  getAccount()
 
-  const fertchNameorAddress = async() => {
+//   const fertchNameorAddress = async() => {
 
-const provider = new providers.Web3Provider(window.ethereum);
-const signer = provider.getSigner()
-console.log(signer._address)
+// const provider = new providers.Web3Provider(window.ethereum);
+// const signer = provider.getSigner()
+// console.log(signer._address)
  
 
 
-    const [account] = await window.ethereum.request({ method: 'eth_requestAccounts' })
+//     const [account] = await window.ethereum.request({ method: 'eth_requestAccounts' })
     
 
- const masa = new Masa({
-    signer: signer,
-    environment: "dev",
-    networkName: 'alfajores',
-  });
-  const result = await masa.session.login()
-  const isLoggedIn = await masa.session.checkLogin()
+//  const masa = new Masa({
+//     signer: signer,
+//     environment: "dev",
+//     networkName: 'alfajores',
+//     apiUrl: ' https://beta.middleware.masa.finance/'
+//   });
+//   const result = await masa.session.login()
+//   const isLoggedIn = await masa.session.checkLogin()
 
-  if  (isLoggedIn) {
-    const checkId = await masa.identity.load(signer._address)
+//   if  (isLoggedIn) {
+//     const checkId = await masa.identity.load(signer._address)
 
-    if(checkId.identityId) {
-      console.log('creating soulname')
-      const createSoulNames = await masa.soulName.create('CELO', 'ayo', 1, undefined, 'style')
-      console.log(createSoulNames)
-      await masa.session.logout();
+//     if(checkId.identityId) {
+//       console.log('creating soulname')
+//       const createSoulNames = await masa.soulName.create('CELO', 'nigeriaa', 1, undefined, 'style')
+//       console.log(createSoulNames)
+      
   
-     }else {
-      console.log('No ID:: creating with ID')
-      const createWithId = await masa.identity.createWithSoulName('CELO', 'ayo', 1, 'style')
-      console.log(createWithId)
-      await masa.session.logout()
+//      }else {
+//       console.log('No ID:: creating with ID')
+//       const createWithId = await masa.identity.createWithSoulName('CELO', 'nigeriaa', 1, 'style')
+//       console.log(createWithId)
+    
 
-     }
+//      }
   
-  }
+//   }
 
 
 
 
 
 
-  //  const createSoulNames = await masa.soulName.create('CELO', 'nomy', 1)
-  //  if(createSoulNames.success == false) {
-  //   const createWithId = await masa.identity.create()
-  //   console.log(createWithId)
-  //   const createSoulNames = await masa.soulName.create('CELO', 'Bobby', 1)
+//   //  const createSoulNames = await masa.soulName.create('CELO', 'nomy', 1)
+//   //  if(createSoulNames.success == false) {
+//   //   const createWithId = await masa.identity.create()
+//   //   console.log(createWithId)
+//   //   const createSoulNames = await masa.soulName.create('CELO', 'Bobby', 1)
 
-  //  }
-  //  console.log('Created SOUL', createSoulNames)
+//   //  }
+//   //  console.log('Created SOUL', createSoulNames)
     
 
   
-  //  console.log(await masa.session.checkLogin())
+//   //  console.log(await masa.session.checkLogin())
 
 
 
 
    
-  }
+//   }
    
 
   const [soulname, setSoulname] = useState<string>('');
@@ -209,7 +210,7 @@ console.log(signer._address)
           />
         </Box>
       </Stack>
-      <Modal blockScrollOnMount={false} isOpen={isOpen} onClose={onClose}>
+      {/* <Modal blockScrollOnMount={false} isOpen={isOpen} onClose={onClose}>
         <ModalOverlay />
         <ModalContent>
           <ModalHeader>Create SoulName</ModalHeader>
@@ -254,7 +255,7 @@ console.log(signer._address)
             </Button>
           </ModalFooter>
         </ModalContent>
-      </Modal>
+      </Modal> */}
     </Container>
   );
 };

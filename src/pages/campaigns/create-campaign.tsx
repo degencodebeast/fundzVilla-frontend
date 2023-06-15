@@ -7,7 +7,7 @@ import toast, { Toaster } from "react-hot-toast";
 import { Web3Storage } from "web3.storage";
 import { prepareWriteContract, writeContract } from '@wagmi/core'
 import { ethers } from "ethers";
-import { CAMPAIGN_MANAGER_ABI } from '@/constants/contract';
+import { CAMPAIGN_MANAGER, CAMPAIGN_MANAGER_ABI } from '@/constants/contract';
 import { useContractWrite, useNetwork,  } from "wagmi";
 
 
@@ -80,7 +80,7 @@ function CreateCampaign() {
       // const data = await writeContract(configure);
 
       const { hash } = await writeContract({
-        address: '0x520504faCDf81aB331284cdFCfD9D76da9e04a7f',
+        address: CAMPAIGN_MANAGER,
         abi: CAMPAIGN_MANAGER_ABI,
         functionName: 'createCampaign',
         args: [objHash, _target],
