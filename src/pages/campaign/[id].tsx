@@ -77,6 +77,8 @@ export const Campaign = () => {
   const [postCID, setPostCID] = useState('')
   const [campaign, setCampaign] = useState<any>({})
   const [amount, setAmount] = useState('')
+  const [inTxn, setInTxn] = useState(false);
+
  
 
   const getCampaignData = async () => {
@@ -162,22 +164,29 @@ export const Campaign = () => {
     try {
       const amt = amount as `${number}`
       const _amount = parseEther(amt)
+      setInTxn(true)
+      
       const { hash } = await writeContract({
         address: CAMPAIGN_MANAGER,
         abi: CAMPAIGN_MANAGER_ABI,
-        functionName: 'Donate',
+        functionName: 'donate',
         args: [ campaign.campaignId, Number(amount)],
-        // value: parseEther(amt),
+        value: parseEther(amt) ,
       })
 
       toast.success('Donation Successfull');
       setAmount('');
+      setInTxn(false)
+
       onClose()
+
     
       
     } catch (error) {
       console.log(error)
       toast.error('Oops,,,,something went wrong')
+      setInTxn(false)
+
     }  
    }
 
@@ -213,10 +222,10 @@ export const Campaign = () => {
       <Navbar />
       <Toaster />
 
-      {/* <Modal
-        isOpen={loading}
+      <Modal
+        isOpen={inTxn}
         onClose={() => {
-          !loading
+          !inTxn
         }}
         isCentered
       >
@@ -234,7 +243,7 @@ export const Campaign = () => {
             </Center>
           </ModalBody>
         </ModalContent>
-      </Modal> */}
+      </Modal>
 
       <main
       className={`main-color flex min-h-screen flex-col items-center justify-between p-24 `}
@@ -344,7 +353,7 @@ export const Campaign = () => {
             <FormControl id="userName" isRequired>
               <FormLabel>Amount</FormLabel>
               <Input
-                placeholder="Enter Amount in cUSD"
+                placeholder="Enter Amount in celo"
                 _placeholder={{ color: 'gray.500' }}
                 type="text"
                 required

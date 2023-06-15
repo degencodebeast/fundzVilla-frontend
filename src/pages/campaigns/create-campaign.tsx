@@ -1,7 +1,7 @@
 import Image from 'next/image'
 import { Inter } from 'next/font/google'
 import { Features, Footer, Hero, Navbar, Sponsors } from '@/components'
-import { Button, Center, Checkbox, Container, FormControl, FormLabel, Heading, Input, InputGroup, InputRightElement, Link, Stack, VStack, useColorModeValue } from '@chakra-ui/react'
+import { Button, Center, Checkbox, Container, FormControl, FormLabel, Heading, Input, InputGroup, InputRightElement, Link, Modal, ModalBody, ModalContent, ModalOverlay, Spinner, Stack, VStack, useColorModeValue } from '@chakra-ui/react'
 import { useEffect, useState } from "react";
 import toast, { Toaster } from "react-hot-toast";
 import { Web3Storage } from "web3.storage";
@@ -120,6 +120,29 @@ function CreateCampaign() {
     
     <Navbar/>
     <Toaster />
+    <Modal
+        isOpen={inTxn}
+        onClose={() => {
+          !inTxn
+        }}
+        isCentered
+      >
+        <ModalOverlay />
+        <ModalContent>
+          <ModalBody>
+            <Center>
+              <Spinner
+                thickness="4px"
+                speed="0.65s"
+                emptyColor="gray.200"
+                color="blue.500"
+                size="xl"
+              />
+            </Center>
+          </ModalBody>
+        </ModalContent>
+      </Modal>
+
     <main
       className={`main-color flex min-h-screen flex-col items-center justify-between p-24 `}
     >
