@@ -303,7 +303,8 @@ export const Campaign = () => {
             {campaign.campaignOwner == account.address && (
             <>
            
-            <Button onClick={withdrawCampaignFunds} size={'md'} width={'auto'}>Withdraw Funds</Button>
+            <Button bgGradient="linear(to-l, #0ea5e9,#2563eb)"
+              _hover={{ bgGradient: 'linear(to-l, #0ea5e9,#2563eb)', opacity: 0.9 }}   onClick={withdrawCampaignFunds} size={'md'} width={'auto'}>Withdraw Funds</Button>
             </>
              )}
             
