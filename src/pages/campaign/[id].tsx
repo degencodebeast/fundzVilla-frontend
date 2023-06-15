@@ -313,7 +313,7 @@ export const Campaign = () => {
         <Divider marginTop="5" />
 
         <VStack paddingTop="40px" spacing="2" alignItems="flex-start">
-          <Heading as="h2">Amount Raised: 50 / {campaign.campaignTarget} USDT</Heading>
+          <Heading as="h2">Amount Raised: 50 / {campaign.campaignTarget} celo</Heading>
           <Text as="p" fontSize="lg" width={'89%'}>
             Want to support this campaign? <br />
             <Button  

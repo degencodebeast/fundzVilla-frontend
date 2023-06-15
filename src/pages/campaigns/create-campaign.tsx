@@ -161,7 +161,7 @@ function CreateCampaign() {
               </FormControl>
 
               <FormControl id="targ">
-                <FormLabel>Target (cUSD)</FormLabel>
+                <FormLabel>Target (celo)</FormLabel>
                 <Input onChange={(e) => {
                     setTarget(e.target.value); 
                    

@@ -83,10 +83,7 @@ function Campaigns() {
         abi: CAMPAIGN_MANAGER_ABI,
         functionName: 'getAllCampaigns',
       })
-console.log(masa.config)
-      console.log(masa.config.networkName)
 
-      console.log('HERE: ', allCampaignsAddresses);
 
       let new_campaigns = []
 
@@ -271,7 +268,7 @@ console.log(masa.config)
                           {campaign.soulname ||shortenAddress(campaign.campaignOwner)}
                         </Badge>
                       </Box>
-                      <Text mt={1} color="white" ml={1}><strong>{campaign.campaignTarget} cUSD</strong> </Text>
+                      <Text mt={1} color="white" ml={1}><strong>{campaign.campaignTarget} celo</strong> </Text>
                     </Box>
                     <Text
                       mt="1"
