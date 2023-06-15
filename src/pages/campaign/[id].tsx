@@ -173,7 +173,7 @@ export const Campaign = () => {
         abi: CAMPAIGN_MANAGER_ABI,
         functionName: "donate",
         args: [campaign.campaignId, Number(amount)],
-        value: amt ? parseEther(amt) : BigInt(0),
+        value: amt ? parseEther(amt) : undefined,
       });
 
       toast.success("Donation Successfull");
