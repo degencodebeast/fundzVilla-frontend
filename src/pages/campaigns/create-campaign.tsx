@@ -1,33 +1,51 @@
-import Image from 'next/image'
-import { Inter } from 'next/font/google'
-import { Features, Footer, Hero, Navbar, Sponsors } from '@/components'
-import { Button, Center, Checkbox, Container, FormControl, FormLabel, Heading, Input, InputGroup, InputRightElement, Link, Modal, ModalBody, ModalContent, ModalOverlay, Spinner, Stack, VStack, useColorModeValue } from '@chakra-ui/react'
+import Image from "next/image";
+import { Inter } from "next/font/google";
+import { Features, Footer, Hero, Navbar, Sponsors } from "@/components";
+import {
+  Button,
+  Center,
+  Checkbox,
+  Container,
+  FormControl,
+  FormLabel,
+  Heading,
+  Input,
+  InputGroup,
+  InputRightElement,
+  Link,
+  Modal,
+  ModalBody,
+  ModalContent,
+  ModalOverlay,
+  Spinner,
+  Stack,
+  VStack,
+  useColorModeValue,
+} from "@chakra-ui/react";
 import { useEffect, useState } from "react";
 import toast, { Toaster } from "react-hot-toast";
 import { Web3Storage } from "web3.storage";
-import { prepareWriteContract, writeContract } from '@wagmi/core'
+import { prepareWriteContract, writeContract } from "@wagmi/core";
 import { ethers } from "ethers";
-import { CAMPAIGN_MANAGER, CAMPAIGN_MANAGER_ABI } from '@/constants/contract';
-import { useContractWrite, useNetwork,  } from "wagmi";
-
-
+import { CAMPAIGN_MANAGER, CAMPAIGN_MANAGER_ABI } from "@/constants/contract";
+import { useContractWrite, useNetwork } from "wagmi";
 
 const client = new Web3Storage({
   token:
-  'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJkaWQ6ZXRocjoweEQyQkNCYTBDQzMyMDJjMmZkQkUzMjFhZjdmODBiOEQ2NzZCRTkyOTciLCJpc3MiOiJ3ZWIzLXN0b3JhZ2UiLCJpYXQiOjE2Nzk4OTI0NzE5OTYsIm5hbWUiOiJUb2tlbiJ9.QQbjt0glkuKqkJ-C4-5q8LOGUFIIhjaIX7FZHohSQhw'
+    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJkaWQ6ZXRocjoweEQyQkNCYTBDQzMyMDJjMmZkQkUzMjFhZjdmODBiOEQ2NzZCRTkyOTciLCJpc3MiOiJ3ZWIzLXN0b3JhZ2UiLCJpYXQiOjE2Nzk4OTI0NzE5OTYsIm5hbWUiOiJUb2tlbiJ9.QQbjt0glkuKqkJ-C4-5q8LOGUFIIhjaIX7FZHohSQhw",
 });
 
 function CreateCampaign() {
   const [show, setShow] = useState(false);
   const handleClick = () => setShow(!show);
   const [campaignName, setCampaignName] = useState("");
-  const [target, setTarget] = useState('');
+  const [target, setTarget] = useState("");
   const [link, setLink] = useState("");
   const [projectDetails, setProjectDetails] = useState("");
   const [coverImage, setCoverImage] = useState<File | null>(null);
   const [coverImageUrl, setCoverImageUrl] = useState("");
   const [inTxn, setInTxn] = useState(false);
-  
+
   const handleCoverImageChange = (e: any) => {
     setCoverImage(e.target.files[0]);
     toast.success("Successfully added!");
@@ -36,13 +54,12 @@ function CreateCampaign() {
 
   const CreateCampaign = async (e: any) => {
     e.preventDefault();
-    if ( !campaignName || !link || !projectDetails || !coverImage) {
+    if (!campaignName || !link || !projectDetails || !coverImage) {
       toast.error("Please fill out all the fields");
       return;
     }
     try {
-      
-      setInTxn(true)
+      setInTxn(true);
       const imgHash = await client.put([coverImage], {
         wrapWithDirectory: false,
       });
@@ -65,11 +82,8 @@ function CreateCampaign() {
       const objHash = await client.put(file);
       console.log("Obj hash: ", objHash);
 
-
-      
-
       const _target = Number(target);
-      console.log(objHash, _target, )
+      console.log(objHash, _target);
 
       // const configure = await prepareWriteContract({
       //   address: "0x52B3BA8ca46ae59FF43F0b9A04Dd32384e032Ecc",
@@ -82,15 +96,10 @@ function CreateCampaign() {
       const { hash } = await writeContract({
         address: CAMPAIGN_MANAGER,
         abi: CAMPAIGN_MANAGER_ABI,
-        functionName: 'createCampaign',
+        functionName: "createCampaign",
         args: [objHash, _target],
-      })
+      });
 
-    
-
-    
-     
-      
       // const contractInst = new ethers.Contract(
       //   '0xe8d3a73f6351f9f5dd6A577aD4ddF7d5C84DF5C8',
       //   CAMPAIGN_MANAGER_ABI,
@@ -98,32 +107,29 @@ function CreateCampaign() {
       // );
       // const data = await contractInst.createCampaign(objHash, _target)
       // data.wait()
-     
-      
-      setCampaignName('')
-      setProjectDetails('')
-      setTarget('')
-      setCoverImage(null)
-      setLink('')
-      toast.success('Campaign Successfully created!')
-      setInTxn(false)
+
+      setCampaignName("");
+      setProjectDetails("");
+      setTarget("");
+      setCoverImage(null);
+      setLink("");
+      toast.success("Campaign Successfully created!");
+      setInTxn(false);
     } catch (error) {
-      setInTxn(false)
-      toast.error('Something Went wrong')
+      setInTxn(false);
+      toast.error("Something Went wrong");
       console.log(error);
     }
   };
 
-  
   return (
     <>
-    
-    <Navbar/>
-    <Toaster />
-    <Modal
+      <Navbar />
+      <Toaster />
+      <Modal
         isOpen={inTxn}
         onClose={() => {
-          !inTxn
+          !inTxn;
         }}
         isCentered
       >
@@ -143,88 +149,107 @@ function CreateCampaign() {
         </ModalContent>
       </Modal>
 
-    <main
-      className={`main-color flex min-h-screen flex-col items-center justify-between p-24 `}
-    >
-      <Container maxW="7xl" p={{ base: 5, md: 10 }}>
-      <Center>
-        <Stack spacing={4}>
-          <Stack align="center">
-            <Heading  color={'white'} fontSize="2xl">Create Campaign</Heading>
-          </Stack>
-          <VStack
-            as="form"
-            boxSize={{ base: 'xs', sm: 'sm', md: 'md' }}
-            h="max-content !important"
-            bg={useColorModeValue('gray.700', 'gray.700')}
-            rounded="lg"
-            boxShadow="lg"
-            p={{ base: 5, sm: 10 }}
-            spacing={8}
-          >
-            <VStack color={'white'} spacing={4} w="100%">
-
-              <FormControl id="email">
-                <FormLabel>Campaign Title</FormLabel>
-                <Input onChange={(e) => {
-                    setCampaignName(e.target.value); 
-                   
-                  }} rounded="md" type="text" placeholder='Enter campaign title' />
-              </FormControl>
-
-              <FormControl id="desc">
-                <FormLabel>Description</FormLabel>
-                <Input onChange={(e) => {
-                    setProjectDetails(e.target.value)} }  rounded="md" type="text" placeholder='Describe your project'/>
-              </FormControl>
-              <FormControl id="desc">
-                <FormLabel>Relevant Links</FormLabel>
-                <Input onChange={(e) => {
-                    setLink(e.target.value)} }  rounded="md" type="text" placeholder='Describe your project'/>
-              </FormControl>
-
-              <FormControl id="targ">
-                <FormLabel>Target (celo)</FormLabel>
-                <Input onChange={(e) => {
-                    setTarget(e.target.value); 
-                   
-                  }}  rounded="md" type="text" placeholder='Enter the amount you need for suppport' />
-              </FormControl>
-
-              <FormControl id="image">
-                <FormLabel>Campaign Banner</FormLabel>
-                <Input onChange={handleCoverImageChange} rounded="md" type="file"  />
-              </FormControl>
-            
-
-            </VStack>
-            <VStack w="100%">
-          
-              <Button
-                bgGradient="linear(to-l, #0ea5e9,#2563eb)"  
-                color="white"
-                _hover={{
-                  bg: 'green.500'
-                }}
-                rounded="md"
-                w="100%"
-                onClick={CreateCampaign}
+      <main
+        className={`main-color flex min-h-screen flex-col items-center justify-between p-24 `}
+      >
+        <Container maxW="7xl" p={{ base: 5, md: 10 }}>
+          <Center>
+            <Stack spacing={4}>
+              <Stack align="center">
+                <Heading color={"white"} fontSize="2xl">
+                  Create Campaign
+                </Heading>
+              </Stack>
+              <VStack
+                as="form"
+                boxSize={{ base: "xs", sm: "sm", md: "md" }}
+                h="max-content !important"
+                bg={useColorModeValue("gray.700", "gray.700")}
+                rounded="lg"
+                boxShadow="lg"
+                p={{ base: 5, sm: 10 }}
+                spacing={8}
               >
-                Create Campaign
-              </Button>
-            </VStack>
-          </VStack>
-        </Stack>
-      </Center>
-    </Container>
+                <VStack color={"white"} spacing={4} w="100%">
+                  <FormControl id="email">
+                    <FormLabel>Campaign Title</FormLabel>
+                    <Input
+                      onChange={(e) => {
+                        setCampaignName(e.target.value);
+                      }}
+                      rounded="md"
+                      type="text"
+                      placeholder="Enter campaign title"
+                    />
+                  </FormControl>
 
-<Footer/>
-    
-    </main>
-   
+                  <FormControl id="desc">
+                    <FormLabel>Description</FormLabel>
+                    <Input
+                      onChange={(e) => {
+                        setProjectDetails(e.target.value);
+                      }}
+                      rounded="md"
+                      type="text"
+                      placeholder="Describe your project"
+                    />
+                  </FormControl>
+                  <FormControl id="desc">
+                    <FormLabel>Relevant Links</FormLabel>
+                    <Input
+                      onChange={(e) => {
+                        setLink(e.target.value);
+                      }}
+                      rounded="md"
+                      type="text"
+                      placeholder="Describe your project"
+                    />
+                  </FormControl>
+
+                  <FormControl id="targ">
+                    <FormLabel>Target (celo)</FormLabel>
+                    <Input
+                      onChange={(e) => {
+                        setTarget(e.target.value);
+                      }}
+                      rounded="md"
+                      type="text"
+                      placeholder="Enter the amount you need for suppport"
+                    />
+                  </FormControl>
+
+                  <FormControl id="image">
+                    <FormLabel>Campaign Banner</FormLabel>
+                    <Input
+                      onChange={handleCoverImageChange}
+                      rounded="md"
+                      type="file"
+                    />
+                  </FormControl>
+                </VStack>
+                <VStack w="100%">
+                  <Button
+                    bgGradient="linear(to-l, #0ea5e9,#2563eb)"
+                    color="white"
+                    _hover={{
+                      bg: "green.500",
+                    }}
+                    rounded="md"
+                    w="100%"
+                    onClick={CreateCampaign}
+                  >
+                    Create Campaign
+                  </Button>
+                </VStack>
+              </VStack>
+            </Stack>
+          </Center>
+        </Container>
+
+        <Footer />
+      </main>
     </>
-  )
+  );
 }
 
-
-export default CreateCampaign
+export default CreateCampaign;

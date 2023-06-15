@@ -1,714 +1,714 @@
-export const CAMPAIGN_MANAGER = "0xea663Fa72E75283daC6A200D51Fd2b2dD55C630E"
+export const CAMPAIGN_MANAGER = "0xea663Fa72E75283daC6A200D51Fd2b2dD55C630E";
 export const CAMPAIGN_MANAGER_ABI = [
   {
-    "anonymous": false,
-    "inputs": [
+    anonymous: false,
+    inputs: [
       {
-        "indexed": false,
-        "internalType": "uint256",
-        "name": "campaignId",
-        "type": "uint256"
-      }
+        indexed: false,
+        internalType: "uint256",
+        name: "campaignId",
+        type: "uint256",
+      },
     ],
-    "name": "CampaignCreated",
-    "type": "event"
+    name: "CampaignCreated",
+    type: "event",
   },
   {
-    "anonymous": false,
-    "inputs": [
+    anonymous: false,
+    inputs: [
       {
-        "indexed": true,
-        "internalType": "address",
-        "name": "previousOwner",
-        "type": "address"
+        indexed: true,
+        internalType: "address",
+        name: "previousOwner",
+        type: "address",
       },
       {
-        "indexed": true,
-        "internalType": "address",
-        "name": "newOwner",
-        "type": "address"
-      }
+        indexed: true,
+        internalType: "address",
+        name: "newOwner",
+        type: "address",
+      },
     ],
-    "name": "OwnershipTransferred",
-    "type": "event"
+    name: "OwnershipTransferred",
+    type: "event",
   },
   {
-    "anonymous": false,
-    "inputs": [
+    anonymous: false,
+    inputs: [
       {
-        "indexed": false,
-        "internalType": "uint256",
-        "name": "campaignId",
-        "type": "uint256"
-      }
+        indexed: false,
+        internalType: "uint256",
+        name: "campaignId",
+        type: "uint256",
+      },
     ],
-    "name": "campaignRemoved",
-    "type": "event"
+    name: "campaignRemoved",
+    type: "event",
   },
   {
-    "inputs": [
+    inputs: [
       {
-        "internalType": "uint256",
-        "name": "",
-        "type": "uint256"
-      }
+        internalType: "uint256",
+        name: "",
+        type: "uint256",
+      },
     ],
-    "name": "_ALL_DONORS",
-    "outputs": [
+    name: "_ALL_DONORS",
+    outputs: [
       {
-        "internalType": "address",
-        "name": "donorAddress",
-        "type": "address"
+        internalType: "address",
+        name: "donorAddress",
+        type: "address",
       },
       {
-        "internalType": "uint256",
-        "name": "amountDonated",
-        "type": "uint256"
-      }
+        internalType: "uint256",
+        name: "amountDonated",
+        type: "uint256",
+      },
     ],
-    "stateMutability": "view",
-    "type": "function"
+    stateMutability: "view",
+    type: "function",
   },
   {
-    "inputs": [
+    inputs: [
       {
-        "internalType": "uint256",
-        "name": "",
-        "type": "uint256"
-      }
+        internalType: "uint256",
+        name: "",
+        type: "uint256",
+      },
     ],
-    "name": "allCampaignIds",
-    "outputs": [
+    name: "allCampaignIds",
+    outputs: [
       {
-        "internalType": "uint256",
-        "name": "",
-        "type": "uint256"
-      }
+        internalType: "uint256",
+        name: "",
+        type: "uint256",
+      },
     ],
-    "stateMutability": "view",
-    "type": "function"
+    stateMutability: "view",
+    type: "function",
   },
   {
-    "inputs": [],
-    "name": "campaignIdCounter",
-    "outputs": [
+    inputs: [],
+    name: "campaignIdCounter",
+    outputs: [
       {
-        "internalType": "uint256",
-        "name": "",
-        "type": "uint256"
-      }
+        internalType: "uint256",
+        name: "",
+        type: "uint256",
+      },
     ],
-    "stateMutability": "view",
-    "type": "function"
+    stateMutability: "view",
+    type: "function",
   },
   {
-    "inputs": [
+    inputs: [
       {
-        "internalType": "uint256",
-        "name": "",
-        "type": "uint256"
+        internalType: "uint256",
+        name: "",
+        type: "uint256",
       },
       {
-        "internalType": "uint256",
-        "name": "",
-        "type": "uint256"
-      }
+        internalType: "uint256",
+        name: "",
+        type: "uint256",
+      },
     ],
-    "name": "campaignIdToDonors",
-    "outputs": [
+    name: "campaignIdToDonors",
+    outputs: [
       {
-        "internalType": "address",
-        "name": "donorAddress",
-        "type": "address"
+        internalType: "address",
+        name: "donorAddress",
+        type: "address",
       },
       {
-        "internalType": "uint256",
-        "name": "amountDonated",
-        "type": "uint256"
-      }
+        internalType: "uint256",
+        name: "amountDonated",
+        type: "uint256",
+      },
     ],
-    "stateMutability": "view",
-    "type": "function"
+    stateMutability: "view",
+    type: "function",
   },
   {
-    "inputs": [
+    inputs: [
       {
-        "internalType": "uint256",
-        "name": "",
-        "type": "uint256"
-      }
+        internalType: "uint256",
+        name: "",
+        type: "uint256",
+      },
     ],
-    "name": "campaignIdToOwner",
-    "outputs": [
+    name: "campaignIdToOwner",
+    outputs: [
       {
-        "internalType": "address",
-        "name": "",
-        "type": "address"
-      }
+        internalType: "address",
+        name: "",
+        type: "address",
+      },
     ],
-    "stateMutability": "view",
-    "type": "function"
+    stateMutability: "view",
+    type: "function",
   },
   {
-    "inputs": [
+    inputs: [
       {
-        "internalType": "contract Campaign",
-        "name": "",
-        "type": "address"
-      }
+        internalType: "contract Campaign",
+        name: "",
+        type: "address",
+      },
     ],
-    "name": "campaignToIds",
-    "outputs": [
+    name: "campaignToIds",
+    outputs: [
       {
-        "internalType": "uint256",
-        "name": "",
-        "type": "uint256"
-      }
+        internalType: "uint256",
+        name: "",
+        type: "uint256",
+      },
     ],
-    "stateMutability": "view",
-    "type": "function"
+    stateMutability: "view",
+    type: "function",
   },
   {
-    "inputs": [
+    inputs: [
       {
-        "internalType": "uint256",
-        "name": "_campaignId",
-        "type": "uint256"
+        internalType: "uint256",
+        name: "_campaignId",
+        type: "uint256",
       },
       {
-        "internalType": "uint256",
-        "name": "amount",
-        "type": "uint256"
-      }
+        internalType: "uint256",
+        name: "amount",
+        type: "uint256",
+      },
     ],
-    "name": "claim",
-    "outputs": [],
-    "stateMutability": "nonpayable",
-    "type": "function"
+    name: "claim",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
   },
   {
-    "inputs": [
+    inputs: [
       {
-        "internalType": "string",
-        "name": "_campaignCID",
-        "type": "string"
+        internalType: "string",
+        name: "_campaignCID",
+        type: "string",
       },
       {
-        "internalType": "uint256",
-        "name": "_target",
-        "type": "uint256"
-      }
+        internalType: "uint256",
+        name: "_target",
+        type: "uint256",
+      },
     ],
-    "name": "createCampaign",
-    "outputs": [
+    name: "createCampaign",
+    outputs: [
       {
-        "internalType": "uint256",
-        "name": "",
-        "type": "uint256"
-      }
+        internalType: "uint256",
+        name: "",
+        type: "uint256",
+      },
     ],
-    "stateMutability": "nonpayable",
-    "type": "function"
+    stateMutability: "nonpayable",
+    type: "function",
   },
   {
-    "inputs": [
+    inputs: [
       {
-        "internalType": "uint256",
-        "name": "_campaignId",
-        "type": "uint256"
+        internalType: "uint256",
+        name: "_campaignId",
+        type: "uint256",
       },
       {
-        "internalType": "uint256",
-        "name": "_amount",
-        "type": "uint256"
-      }
+        internalType: "uint256",
+        name: "_amount",
+        type: "uint256",
+      },
     ],
-    "name": "donate",
-    "outputs": [],
-    "stateMutability": "payable",
-    "type": "function"
+    name: "donate",
+    outputs: [],
+    stateMutability: "payable",
+    type: "function",
   },
   {
-    "inputs": [
+    inputs: [
       {
-        "internalType": "contract Campaign",
-        "name": "",
-        "type": "address"
-      }
+        internalType: "contract Campaign",
+        name: "",
+        type: "address",
+      },
     ],
-    "name": "donors",
-    "outputs": [
+    name: "donors",
+    outputs: [
       {
-        "internalType": "address",
-        "name": "donorAddress",
-        "type": "address"
+        internalType: "address",
+        name: "donorAddress",
+        type: "address",
       },
       {
-        "internalType": "uint256",
-        "name": "amountDonated",
-        "type": "uint256"
-      }
+        internalType: "uint256",
+        name: "amountDonated",
+        type: "uint256",
+      },
     ],
-    "stateMutability": "view",
-    "type": "function"
+    stateMutability: "view",
+    type: "function",
   },
   {
-    "inputs": [
+    inputs: [
       {
-        "internalType": "address",
-        "name": "account",
-        "type": "address"
-      }
+        internalType: "address",
+        name: "account",
+        type: "address",
+      },
     ],
-    "name": "getAddressBalance",
-    "outputs": [
+    name: "getAddressBalance",
+    outputs: [
       {
-        "internalType": "uint256",
-        "name": "",
-        "type": "uint256"
-      }
+        internalType: "uint256",
+        name: "",
+        type: "uint256",
+      },
     ],
-    "stateMutability": "view",
-    "type": "function"
+    stateMutability: "view",
+    type: "function",
   },
   {
-    "inputs": [],
-    "name": "getAllCampaignIds",
-    "outputs": [
+    inputs: [],
+    name: "getAllCampaignIds",
+    outputs: [
       {
-        "internalType": "uint256[]",
-        "name": "_allCampaignIds",
-        "type": "uint256[]"
-      }
+        internalType: "uint256[]",
+        name: "_allCampaignIds",
+        type: "uint256[]",
+      },
     ],
-    "stateMutability": "view",
-    "type": "function"
+    stateMutability: "view",
+    type: "function",
   },
   {
-    "inputs": [],
-    "name": "getAllCampaigns",
-    "outputs": [
+    inputs: [],
+    name: "getAllCampaigns",
+    outputs: [
       {
-        "internalType": "contract Campaign[]",
-        "name": "_allCampaigns",
-        "type": "address[]"
-      }
+        internalType: "contract Campaign[]",
+        name: "_allCampaigns",
+        type: "address[]",
+      },
     ],
-    "stateMutability": "view",
-    "type": "function"
+    stateMutability: "view",
+    type: "function",
   },
   {
-    "inputs": [],
-    "name": "getAllDonators",
-    "outputs": [
+    inputs: [],
+    name: "getAllDonators",
+    outputs: [
       {
-        "components": [
+        components: [
           {
-            "internalType": "address",
-            "name": "donorAddress",
-            "type": "address"
+            internalType: "address",
+            name: "donorAddress",
+            type: "address",
           },
           {
-            "internalType": "uint256",
-            "name": "amountDonated",
-            "type": "uint256"
-          }
+            internalType: "uint256",
+            name: "amountDonated",
+            type: "uint256",
+          },
         ],
-        "internalType": "struct CampaignManager.Donors[]",
-        "name": "_allDonorsData",
-        "type": "tuple[]"
-      }
+        internalType: "struct CampaignManager.Donors[]",
+        name: "_allDonorsData",
+        type: "tuple[]",
+      },
     ],
-    "stateMutability": "view",
-    "type": "function"
+    stateMutability: "view",
+    type: "function",
   },
   {
-    "inputs": [
+    inputs: [
       {
-        "internalType": "uint256",
-        "name": "_campaignId",
-        "type": "uint256"
-      }
+        internalType: "uint256",
+        name: "_campaignId",
+        type: "uint256",
+      },
     ],
-    "name": "getCampaignOwner",
-    "outputs": [
+    name: "getCampaignOwner",
+    outputs: [
       {
-        "internalType": "address",
-        "name": "owner",
-        "type": "address"
-      }
+        internalType: "address",
+        name: "owner",
+        type: "address",
+      },
     ],
-    "stateMutability": "view",
-    "type": "function"
+    stateMutability: "view",
+    type: "function",
   },
   {
-    "inputs": [],
-    "name": "getOwnerCampaigns",
-    "outputs": [
+    inputs: [],
+    name: "getOwnerCampaigns",
+    outputs: [
       {
-        "internalType": "contract Campaign[]",
-        "name": "_allOwnerCampaigns",
-        "type": "address[]"
-      }
+        internalType: "contract Campaign[]",
+        name: "_allOwnerCampaigns",
+        type: "address[]",
+      },
     ],
-    "stateMutability": "view",
-    "type": "function"
+    stateMutability: "view",
+    type: "function",
   },
   {
-    "inputs": [],
-    "name": "getOwnerIds",
-    "outputs": [
+    inputs: [],
+    name: "getOwnerIds",
+    outputs: [
       {
-        "internalType": "uint256[]",
-        "name": "_allOwnerIds",
-        "type": "uint256[]"
-      }
+        internalType: "uint256[]",
+        name: "_allOwnerIds",
+        type: "uint256[]",
+      },
     ],
-    "stateMutability": "view",
-    "type": "function"
+    stateMutability: "view",
+    type: "function",
   },
   {
-    "inputs": [
+    inputs: [
       {
-        "internalType": "uint256",
-        "name": "_campaignId",
-        "type": "uint256"
-      }
+        internalType: "uint256",
+        name: "_campaignId",
+        type: "uint256",
+      },
     ],
-    "name": "getParticularCampaign",
-    "outputs": [
+    name: "getParticularCampaign",
+    outputs: [
       {
-        "internalType": "contract Campaign",
-        "name": "_campaign",
-        "type": "address"
-      }
+        internalType: "contract Campaign",
+        name: "_campaign",
+        type: "address",
+      },
     ],
-    "stateMutability": "view",
-    "type": "function"
+    stateMutability: "view",
+    type: "function",
   },
   {
-    "inputs": [
+    inputs: [
       {
-        "internalType": "uint256",
-        "name": "_campaignId",
-        "type": "uint256"
-      }
+        internalType: "uint256",
+        name: "_campaignId",
+        type: "uint256",
+      },
     ],
-    "name": "getParticularCampaignDonors",
-    "outputs": [
+    name: "getParticularCampaignDonors",
+    outputs: [
       {
-        "components": [
+        components: [
           {
-            "internalType": "address",
-            "name": "donorAddress",
-            "type": "address"
+            internalType: "address",
+            name: "donorAddress",
+            type: "address",
           },
           {
-            "internalType": "uint256",
-            "name": "amountDonated",
-            "type": "uint256"
-          }
+            internalType: "uint256",
+            name: "amountDonated",
+            type: "uint256",
+          },
         ],
-        "internalType": "struct CampaignManager.Donors[]",
-        "name": "_donors",
-        "type": "tuple[]"
-      }
+        internalType: "struct CampaignManager.Donors[]",
+        name: "_donors",
+        type: "tuple[]",
+      },
     ],
-    "stateMutability": "view",
-    "type": "function"
+    stateMutability: "view",
+    type: "function",
   },
   {
-    "inputs": [
+    inputs: [
       {
-        "internalType": "contract Campaign",
-        "name": "campaign",
-        "type": "address"
-      }
+        internalType: "contract Campaign",
+        name: "campaign",
+        type: "address",
+      },
     ],
-    "name": "getParticularCampaignId",
-    "outputs": [
+    name: "getParticularCampaignId",
+    outputs: [
       {
-        "internalType": "uint256",
-        "name": "_campaignId",
-        "type": "uint256"
-      }
+        internalType: "uint256",
+        name: "_campaignId",
+        type: "uint256",
+      },
     ],
-    "stateMutability": "view",
-    "type": "function"
+    stateMutability: "view",
+    type: "function",
   },
   {
-    "inputs": [
+    inputs: [
       {
-        "internalType": "uint256",
-        "name": "",
-        "type": "uint256"
-      }
+        internalType: "uint256",
+        name: "",
+        type: "uint256",
+      },
     ],
-    "name": "idToCampaigns",
-    "outputs": [
+    name: "idToCampaigns",
+    outputs: [
       {
-        "internalType": "contract Campaign",
-        "name": "",
-        "type": "address"
-      }
+        internalType: "contract Campaign",
+        name: "",
+        type: "address",
+      },
     ],
-    "stateMutability": "view",
-    "type": "function"
+    stateMutability: "view",
+    type: "function",
   },
   {
-    "inputs": [
+    inputs: [
       {
-        "internalType": "uint256",
-        "name": "",
-        "type": "uint256"
-      }
+        internalType: "uint256",
+        name: "",
+        type: "uint256",
+      },
     ],
-    "name": "isCampaignVerified",
-    "outputs": [
+    name: "isCampaignVerified",
+    outputs: [
       {
-        "internalType": "bool",
-        "name": "",
-        "type": "bool"
-      }
+        internalType: "bool",
+        name: "",
+        type: "bool",
+      },
     ],
-    "stateMutability": "view",
-    "type": "function"
+    stateMutability: "view",
+    type: "function",
   },
   {
-    "inputs": [],
-    "name": "owner",
-    "outputs": [
+    inputs: [],
+    name: "owner",
+    outputs: [
       {
-        "internalType": "address",
-        "name": "",
-        "type": "address"
-      }
+        internalType: "address",
+        name: "",
+        type: "address",
+      },
     ],
-    "stateMutability": "view",
-    "type": "function"
+    stateMutability: "view",
+    type: "function",
   },
   {
-    "inputs": [
+    inputs: [
       {
-        "internalType": "address",
-        "name": "",
-        "type": "address"
+        internalType: "address",
+        name: "",
+        type: "address",
       },
       {
-        "internalType": "uint256",
-        "name": "",
-        "type": "uint256"
-      }
+        internalType: "uint256",
+        name: "",
+        type: "uint256",
+      },
     ],
-    "name": "ownerToCampaignIds",
-    "outputs": [
+    name: "ownerToCampaignIds",
+    outputs: [
       {
-        "internalType": "uint256",
-        "name": "",
-        "type": "uint256"
-      }
+        internalType: "uint256",
+        name: "",
+        type: "uint256",
+      },
     ],
-    "stateMutability": "view",
-    "type": "function"
+    stateMutability: "view",
+    type: "function",
   },
   {
-    "inputs": [
+    inputs: [
       {
-        "internalType": "address",
-        "name": "",
-        "type": "address"
+        internalType: "address",
+        name: "",
+        type: "address",
       },
       {
-        "internalType": "uint256",
-        "name": "",
-        "type": "uint256"
-      }
+        internalType: "uint256",
+        name: "",
+        type: "uint256",
+      },
     ],
-    "name": "ownerToCampaigns",
-    "outputs": [
+    name: "ownerToCampaigns",
+    outputs: [
       {
-        "internalType": "contract Campaign",
-        "name": "",
-        "type": "address"
-      }
+        internalType: "contract Campaign",
+        name: "",
+        type: "address",
+      },
     ],
-    "stateMutability": "view",
-    "type": "function"
+    stateMutability: "view",
+    type: "function",
   },
   {
-    "inputs": [
+    inputs: [
       {
-        "internalType": "contract Campaign",
-        "name": "campaign",
-        "type": "address"
-      }
+        internalType: "contract Campaign",
+        name: "campaign",
+        type: "address",
+      },
     ],
-    "name": "removeCampaignAddr",
-    "outputs": [],
-    "stateMutability": "nonpayable",
-    "type": "function"
+    name: "removeCampaignAddr",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
   },
   {
-    "inputs": [],
-    "name": "renounceOwnership",
-    "outputs": [],
-    "stateMutability": "nonpayable",
-    "type": "function"
+    inputs: [],
+    name: "renounceOwnership",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
   },
   {
-    "inputs": [
+    inputs: [
       {
-        "internalType": "address",
-        "name": "newOwner",
-        "type": "address"
-      }
+        internalType: "address",
+        name: "newOwner",
+        type: "address",
+      },
     ],
-    "name": "transferOwnership",
-    "outputs": [],
-    "stateMutability": "nonpayable",
-    "type": "function"
+    name: "transferOwnership",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
   },
   {
-    "inputs": [
+    inputs: [
       {
-        "internalType": "uint256",
-        "name": "_campaignId",
-        "type": "uint256"
-      }
+        internalType: "uint256",
+        name: "_campaignId",
+        type: "uint256",
+      },
     ],
-    "name": "verifyCampaign",
-    "outputs": [],
-    "stateMutability": "nonpayable",
-    "type": "function"
-  }
-]
-export const CAMPAIGN_ABI= [
+    name: "verifyCampaign",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+];
+export const CAMPAIGN_ABI = [
   {
-    "inputs": [
+    inputs: [
       {
-        "internalType": "address",
-        "name": "_owner",
-        "type": "address"
+        internalType: "address",
+        name: "_owner",
+        type: "address",
       },
       {
-        "internalType": "string",
-        "name": "_campaignCID",
-        "type": "string"
+        internalType: "string",
+        name: "_campaignCID",
+        type: "string",
       },
       {
-        "internalType": "uint256",
-        "name": "_createdAt",
-        "type": "uint256"
+        internalType: "uint256",
+        name: "_createdAt",
+        type: "uint256",
       },
       {
-        "internalType": "uint256",
-        "name": "_target",
-        "type": "uint256"
+        internalType: "uint256",
+        name: "_target",
+        type: "uint256",
       },
       {
-        "internalType": "uint256",
-        "name": "_id",
-        "type": "uint256"
-      }
+        internalType: "uint256",
+        name: "_id",
+        type: "uint256",
+      },
     ],
-    "stateMutability": "nonpayable",
-    "type": "constructor"
+    stateMutability: "nonpayable",
+    type: "constructor",
   },
   {
-    "inputs": [],
-    "name": "campaignCID",
-    "outputs": [
+    inputs: [],
+    name: "campaignCID",
+    outputs: [
       {
-        "internalType": "string",
-        "name": "",
-        "type": "string"
-      }
+        internalType: "string",
+        name: "",
+        type: "string",
+      },
     ],
-    "stateMutability": "view",
-    "type": "function"
+    stateMutability: "view",
+    type: "function",
   },
   {
-    "inputs": [],
-    "name": "createdAt",
-    "outputs": [
+    inputs: [],
+    name: "createdAt",
+    outputs: [
       {
-        "internalType": "uint256",
-        "name": "",
-        "type": "uint256"
-      }
+        internalType: "uint256",
+        name: "",
+        type: "uint256",
+      },
     ],
-    "stateMutability": "view",
-    "type": "function"
+    stateMutability: "view",
+    type: "function",
   },
   {
-    "inputs": [],
-    "name": "id",
-    "outputs": [
+    inputs: [],
+    name: "id",
+    outputs: [
       {
-        "internalType": "uint256",
-        "name": "",
-        "type": "uint256"
-      }
+        internalType: "uint256",
+        name: "",
+        type: "uint256",
+      },
     ],
-    "stateMutability": "view",
-    "type": "function"
+    stateMutability: "view",
+    type: "function",
   },
   {
-    "inputs": [],
-    "name": "owner",
-    "outputs": [
+    inputs: [],
+    name: "owner",
+    outputs: [
       {
-        "internalType": "address",
-        "name": "",
-        "type": "address"
-      }
+        internalType: "address",
+        name: "",
+        type: "address",
+      },
     ],
-    "stateMutability": "view",
-    "type": "function"
+    stateMutability: "view",
+    type: "function",
   },
   {
-    "inputs": [],
-    "name": "raisedFunds",
-    "outputs": [
+    inputs: [],
+    name: "raisedFunds",
+    outputs: [
       {
-        "internalType": "uint256",
-        "name": "",
-        "type": "uint256"
-      }
+        internalType: "uint256",
+        name: "",
+        type: "uint256",
+      },
     ],
-    "stateMutability": "view",
-    "type": "function"
+    stateMutability: "view",
+    type: "function",
   },
   {
-    "inputs": [],
-    "name": "target",
-    "outputs": [
+    inputs: [],
+    name: "target",
+    outputs: [
       {
-        "internalType": "uint256",
-        "name": "",
-        "type": "uint256"
-      }
+        internalType: "uint256",
+        name: "",
+        type: "uint256",
+      },
     ],
-    "stateMutability": "view",
-    "type": "function"
+    stateMutability: "view",
+    type: "function",
   },
   {
-    "inputs": [
+    inputs: [
       {
-        "internalType": "uint256",
-        "name": "amount",
-        "type": "uint256"
-      }
+        internalType: "uint256",
+        name: "amount",
+        type: "uint256",
+      },
     ],
-    "name": "withdraw",
-    "outputs": [],
-    "stateMutability": "nonpayable",
-    "type": "function"
+    name: "withdraw",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
   },
   {
-    "stateMutability": "payable",
-    "type": "receive"
-  }
-]
-export const DAO_CONTRACT=""
-export const DAO_ABI=""
+    stateMutability: "payable",
+    type: "receive",
+  },
+];
+export const DAO_CONTRACT = "";
+export const DAO_ABI = "";
