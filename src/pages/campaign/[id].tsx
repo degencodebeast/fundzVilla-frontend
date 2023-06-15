@@ -76,6 +76,7 @@ export const Campaign = () => {
 
   const [postCID, setPostCID] = useState('')
   const [campaign, setCampaign] = useState<any>({})
+  const [donors, setDonors] = useState<any>()
   const [amount, setAmount] = useState('')
   const [inTxn, setInTxn] = useState(false);
 
@@ -180,7 +181,6 @@ export const Campaign = () => {
 
       onClose()
 
-    
       
     } catch (error) {
       console.log(error)
@@ -201,17 +201,42 @@ export const Campaign = () => {
 
    }
 
+   const getDonors = async() => {
+    try {
+
+      const campaignId: any = await readContract({
+        address: campaignAddr,
+        abi: CAMPAIGN_ABI,
+        functionName: 'id',
+        
+      })
+
+      const donors: any = await readContract({
+        address: CAMPAIGN_MANAGER,
+        abi: CAMPAIGN_MANAGER_ABI,
+        args:[campaignId],
+        functionName: 'getParticularCampaignDonors',
+       
+      })
+      setDonors(donors)
+    } catch (error) {
+      console.log(error)
+      
+    }
+   }
+
  
 
 
 
-  
+  console.log(donors)
 
 
  
   useEffect(() => {
     const updateData = async ()=>{
             await getCampaignData()
+            await getDonors()
     }
     updateData();
     
@@ -334,15 +359,17 @@ export const Campaign = () => {
         </VStack>
         <Divider marginTop="5" mb={5} />
         <Heading>Donor(s)</Heading>
-        <Text>Donation by: </Text>
-              <Text>Amount: </Text>
+         {donors.map((data:any) => {
+          
+          
+          return (
+            <>
+              <Text>Donation by: {data.donorAddress}</Text>
+              <Text>Amount: {data.amountDonated} </Text>
               <Divider marginTop="5" mb={5} />
-              <Text>Donation by: </Text>
-              <Text>Amount: </Text>
-              <Divider marginTop="5" mb={5} />
-
-        
-        <Divider marginTop="5" mb={5} />
+            </>
+          )
+        })}
         <Modal blockScrollOnMount={false} isOpen={isOpen} onClose={onClose}>
         <ModalOverlay />
         <ModalContent>

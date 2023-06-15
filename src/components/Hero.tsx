@@ -177,7 +177,7 @@ const Hero =  () => {
               <Icon as={MdBolt} h={4} w={4} ml={1} />
             </chakra.button>
             </Link>
-            <Box
+            <Link href='/campaigns'><Box
               display="flex"
               justifyContent="center"
               bg={useColorModeValue('white', 'gray.800')}
@@ -192,7 +192,8 @@ const Hero =  () => {
               zIndex={55555555}
             >
              Fund Projects
-            </Box>
+            </Box></Link>
+            
             {/* <Button onClick={onOpen}>Create Soulname</Button> */}
           </HStack>
         </Stack>
