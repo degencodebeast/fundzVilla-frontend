@@ -238,7 +238,7 @@ console.log(masa.config)
                           {campaign.campaignOwner}
                         </Badge>
                       </Box>
-                      <Text mt={1} color="white" ml={1}><strong>{campaign.campaignTarget} BIT</strong> </Text>
+                      <Text mt={1} color="white" ml={1}><strong>{campaign.campaignTarget} celo</strong> </Text>
                     </Box>
                     <Text
                       mt="1"

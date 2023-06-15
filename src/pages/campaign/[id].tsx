@@ -240,8 +240,8 @@ export const Campaign = () => {
       className={`main-color flex min-h-screen flex-col items-center justify-between p-24 `}
     >
 
-      <Container maxW={'7xl'} p="12">
-        <Heading as="h6">Campaigns</Heading>
+      <Container maxW={'7xl'} p="12" color={'white'}>
+        <Heading as="h6">Campaign</Heading>
         <Box
           marginTop={{ base: '1', sm: '5' }}
           display="flex"
