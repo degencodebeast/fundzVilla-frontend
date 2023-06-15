@@ -359,7 +359,7 @@ export const Campaign = () => {
         </VStack>
         <Divider marginTop="5" mb={5} />
         <Heading>Donor(s)</Heading>
-         {donors.map((data:any) => {
+         {/* {donors.map((data:any) => {
           
           
           return (
@@ -369,7 +369,7 @@ export const Campaign = () => {
               <Divider marginTop="5" mb={5} />
             </>
           )
-        })}
+        })} */}
         <Modal blockScrollOnMount={false} isOpen={isOpen} onClose={onClose}>
         <ModalOverlay />
         <ModalContent>
