@@ -8,6 +8,7 @@ import {
   useColorModeValue,
   Button,
   Image,
+  Center,
   Skeleton,
   Box,
   Link,
@@ -24,6 +25,7 @@ import {
   ModalOverlay,
   useDisclosure,
   Flex,
+  Spinner,
 } from "@chakra-ui/react";
 import { Masa } from "@masa-finance/masa-sdk";
 import { providers } from "ethers";
@@ -37,6 +39,7 @@ const Social = () => {
   const [duration, setDuration] = useState(1);
   const [isAvailable, setIsAvailable] = useState(true);
   const [loadingIsAvailable, setLoadingIsAvailable] = useState(false);
+  const [inTxn, setInTxn] = useState(false)
 
   useEffect(() => {
     const provider = new providers.Web3Provider(window.ethereum);
@@ -59,8 +62,11 @@ const Social = () => {
   }, [soulname, setLoadingIsAvailable, setIsAvailable]);
 
   const createSoulname = async () => {
+   try {
     const provider = new providers.Web3Provider(window.ethereum);
     const signer = provider.getSigner();
+
+    
 
     const masa = new Masa({
       signer: signer,
@@ -68,6 +74,7 @@ const Social = () => {
       networkName: "alfajores",
       apiUrl: " https://beta.middleware.masa.finance/",
     });
+    setInTxn(true)
     const result = await masa.session.login();
     const isLoggedIn = await masa.session.checkLogin();
 
@@ -85,9 +92,11 @@ const Social = () => {
         );
         if (createSoulNames.success) {
           toast.success("Succesfully created your soulname");
+          setInTxn(false)
         }
       } else {
         console.log("No ID:: creating with ID");
+        toast.loading('Creating Masa Identity')
         const createWithId = await masa.identity.createWithSoulName(
           "CELO",
           soulname,
@@ -96,9 +105,12 @@ const Social = () => {
         );
         if (createWithId.success) {
           toast.success("Succesfully created your soulname");
+          setInTxn(false)
         }
       }
     } else {
+      toast.error('Oops something went wrong..try again')
+      setInTxn(false)
     }
 
     //  const createSoulNames = await masa.soulName.create('CELO', 'nomy', 1)
@@ -111,10 +123,37 @@ const Social = () => {
     //  console.log('Created SOUL', createSoulNames)
 
     //  console.log(await masa.session.checkLogin())
+    
+   } catch (error) {
+    console.log(error)
+    setInTxn(false)
+   }
   };
   return (
     <>
       <Toaster />
+      <Modal
+        isOpen={inTxn}
+        onClose={() => {
+          !inTxn;
+        }}
+        isCentered
+      >
+        <ModalOverlay />
+        <ModalContent>
+          <ModalBody>
+            <Center>
+              <Spinner
+                thickness="4px"
+                speed="0.65s"
+                emptyColor="gray.200"
+                color="blue.500"
+                size="xl"
+              />
+            </Center>
+          </ModalBody>
+        </ModalContent>
+      </Modal>
       <Flex
         bg="##0F0F0F"
         _dark={{
@@ -269,7 +308,7 @@ const Social = () => {
             <FormControl mt={3} isRequired>
               <FormLabel>Duration</FormLabel>
               <Input
-                placeholder="Enter registration period"
+                placeholder="Enter registration period (years)"
                 _placeholder={{ color: "gray.500" }}
                 type="text"
                 required
