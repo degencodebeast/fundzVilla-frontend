@@ -358,10 +358,11 @@ export const Campaign = () => {
           <Divider marginTop="5" mb={5} />
           <Heading>Donor(s)</Heading>
           {donors.map((data: any) => {
+            const amountDonated = Number(data.amountDonated)
             return (
               <>
                 <Text>Donation by: {data.donorAddress}</Text>
-                <Text>Amount: {data.amountDonated} </Text>
+                <Text>Amount: {amountDonated} Celo </Text>
                 <Divider marginTop="5" mb={5} />
               </>
             );

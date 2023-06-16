@@ -89,6 +89,7 @@ const CustomLink = ({ children, ...props }: LinkProps) => {
     <Link
       href="#"
       fontSize="sm"
+      color={'white'}
       _hover={{ textDecoration: "underline" }}
       {...props}
     >

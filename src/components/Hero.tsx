@@ -122,6 +122,7 @@ const Hero = () => {
               rounded="full"
               color="white"
               bgGradient="linear(to-l, #0ea5e9,#2563eb)"
+              _hover={{ textDecoration: "none" }}
             >
               {"Fund your dream"}
             </Box>
@@ -187,6 +188,7 @@ const Hero = () => {
                 lineHeight={1.18}
                 rounded="md"
                 boxShadow="md"
+                _hover={{ textDecoration: "none" }}
                 as={Link}
                 zIndex={55555555}
               >
