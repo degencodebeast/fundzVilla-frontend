@@ -81,6 +81,8 @@ export const Campaign = () => {
   const [amount, setAmount] = useState("");
   const [inTxn, setInTxn] = useState(false);
   const [raisedFunds, setRaisedFunds] = useState(0);
+  const [realtimeFunds, setRealTimeFunds] = useState(0);
+
 
   const getCampaignData = async () => {
     const [account] = await window.ethereum.request({
@@ -157,6 +159,13 @@ export const Campaign = () => {
         args: [campaignAddr],
         functionName: "getAddressBalance",
       });
+      let sum = 0;
+      for(let i = 0; i<donors.length; i++) {
+        const amt = Number(donors[i].amountDonated)
+        sum += amt;
+      }
+      const updatedFunds = sum;
+      setRealTimeFunds(updatedFunds)
       const funds = Number(balance);
       setRaisedFunds(funds);
     } catch (error) {
@@ -398,7 +407,7 @@ export const Campaign = () => {
 
           <VStack paddingTop="40px" spacing="2" alignItems="flex-start">
             <Heading as="h2">
-              Amount Raised: {raisedFunds} / {campaign.campaignTarget} celo
+              Amount Raised: {realtimeFunds} / {campaign.campaignTarget} celo
             </Heading>
             <Text as="p" fontSize="lg" width={"89%"}>
               Want to support this campaign? <br />
