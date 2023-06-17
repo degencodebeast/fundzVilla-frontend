@@ -43,7 +43,7 @@ import { Address } from "wagmi";
 import toast, { Toaster } from "react-hot-toast";
 import axios from "axios";
 import { prepareWriteContract, writeContract } from "@wagmi/core";
-import { parseEther } from "viem";
+import { createPublicClient, createWalletClient, custom, http, parseEther } from "viem";
 import {
   CAMPAIGN_ABI,
   CAMPAIGN_MANAGER,
@@ -52,6 +52,7 @@ import {
 import { useContractWrite, useNetwork } from "wagmi";
 import { Masa } from "@masa-finance/masa-sdk";
 import { shortenAddress } from "@/helpers/shortenAddress";
+import { celoAlfajores } from "viem/chains";
 
 const token =
   "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJkaWQ6ZXRocjoweEQyQkNCYTBDQzMyMDJjMmZkQkUzMjFhZjdmODBiOEQ2NzZCRTkyOTciLCJpc3MiOiJ3ZWIzLXN0b3JhZ2UiLCJpYXQiOjE2Nzk4OTI0NzE5OTYsIm5hbWUiOiJUb2tlbiJ9.QQbjt0glkuKqkJ-C4-5q8LOGUFIIhjaIX7FZHohSQhw";
@@ -164,17 +165,43 @@ export const Campaign = () => {
 
   const makeDonation = async () => {
     try {
-      const amt = amount as `${number}`;
+       const amt = amount as `${number}`;
       const _amount = parseEther(amt);
       setInTxn(true);
 
-      const { hash } = await writeContract({
+      const publicClient = createPublicClient({
+        chain: celoAlfajores,
+        transport: http()
+      })
+      
+      const walletClient = createWalletClient({
+        chain: celoAlfajores,
+        transport: custom(window.ethereum)
+      })
+      
+      // JSON-RPC Account
+      const [account] = await walletClient.getAddresses()
+
+
+const data = await walletClient.writeContract({
         address: CAMPAIGN_MANAGER,
         abi: CAMPAIGN_MANAGER_ABI,
         functionName: "donate",
         args: [campaign.campaignId, Number(amount)],
-        // value: amt !== undefined ? parseEther(amt) : undefined,
-      });
+        value: parseEther(amt),
+        account
+})
+
+
+     
+
+      // const { hash } = await writeContract({
+      //   address: CAMPAIGN_MANAGER,
+      //   abi: CAMPAIGN_MANAGER_ABI,
+      //   functionName: "donate",
+      //   args: [campaign.campaignId, Number(amount)],
+      //   // value: amt !== undefined ? parseEther(amt) : undefined,
+      // });
 
       toast.success("Donation Successfull");
       setAmount("");
