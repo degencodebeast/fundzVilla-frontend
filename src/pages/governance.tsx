@@ -31,6 +31,8 @@ import {
   CAMPAIGN_MANAGER_ABI,
 } from "@/constants/contract";
 import { Masa } from "@masa-finance/masa-sdk";
+import { shortenString } from "@/helpers/shortenString";
+import { shortenAddress } from "@/helpers/shortenAddress";
 
 type CampaignDetail = {
   campaignId: number;
@@ -241,6 +243,8 @@ function Campaigns() {
                           boxSize="338px"
                           src={`https://ipfs.io/ipfs/${campaign.coverImage}`}
                           alt="Blog image"
+                          objectFit={'cover'}
+                          width={'full'}
                         />
                         <Box p={{ base: 4, lg: 6 }}>
                           <Box display="flex" alignItems="baseline">
@@ -258,7 +262,8 @@ function Campaigns() {
                           <Box>
                             <Box color="gray.600" fontSize="sm">
                               <Badge rounded="full" px="2" colorScheme="teal">
-                                {campaign.campaignOwner}
+                              {campaign.soulname ||
+                                  shortenAddress(campaign.campaignOwner)}
                               </Badge>
                             </Box>
                             <Text mt={1} color="white" ml={1}>
@@ -273,7 +278,7 @@ function Campaigns() {
                             color="gray.600"
                             fontSize="sm"
                           >
-                            {campaign.campaignDescription}
+                            {shortenString(campaign.campaignDescription)}
                           </Text>
                         </Box>
                         <chakra.button

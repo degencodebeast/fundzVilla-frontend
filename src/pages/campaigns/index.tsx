@@ -37,6 +37,7 @@ import { Masa } from "@masa-finance/masa-sdk";
 import { createWalletClient, custom } from "viem";
 import { celoAlfajores } from "viem/chains";
 import { Signer } from "ethers";
+import { shortenString } from "@/helpers/shortenString";
 declare global {
   interface Window {
     ethereum: any;
@@ -207,13 +208,14 @@ function Campaigns() {
             <SimpleGrid columns={[1, 2, 3]} spacing="20px">
               {allCampaigns.map((campaign) => {
                 return (
-                  <Box position="relative" key={campaign.campaignId}>
+                  <Box  position="relative" key={campaign.campaignId}>
                     <Box
                       fontSize="sm"
                       position="absolute"
                       right="5px"
                       margin="5px"
                       zIndex="1"
+                      maxHeight={'400px'}
                     >
                       {campaign.isVerified ? (
                         <Badge
@@ -254,7 +256,9 @@ function Campaigns() {
                         <Image
                           boxSize="338px"
                           src={`https://ipfs.io/ipfs/${campaign.coverImage}`}
+                          objectFit={'cover'}
                           alt="campaign image"
+                          width={'full'}
                         />
                         <Box p={{ base: 4, lg: 6 }}>
                           <Box display="flex" alignItems="baseline">
@@ -292,7 +296,7 @@ function Campaigns() {
                             color="gray.600"
                             fontSize="sm"
                           >
-                            {campaign.campaignDescription}
+                            {shortenString(campaign.campaignDescription)}
                           </Text>
                         </Box>
                       </Box>
