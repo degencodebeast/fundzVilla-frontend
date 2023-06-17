@@ -53,6 +53,7 @@ import { useContractWrite, useNetwork } from "wagmi";
 import { Masa } from "@masa-finance/masa-sdk";
 import { shortenAddress } from "@/helpers/shortenAddress";
 import { celoAlfajores } from "viem/chains";
+import { ethers, providers } from "ethers";
 
 const token =
   "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJkaWQ6ZXRocjoweEQyQkNCYTBDQzMyMDJjMmZkQkUzMjFhZjdmODBiOEQ2NzZCRTkyOTciLCJpc3MiOiJ3ZWIzLXN0b3JhZ2UiLCJpYXQiOjE2Nzk4OTI0NzE5OTYsIm5hbWUiOiJUb2tlbiJ9.QQbjt0glkuKqkJ-C4-5q8LOGUFIIhjaIX7FZHohSQhw";
@@ -181,16 +182,22 @@ export const Campaign = () => {
       
       // JSON-RPC Account
       const [account] = await walletClient.getAddresses()
+      const provider = new providers.Web3Provider(window.ethereum);
+       const signer = provider.getSigner();
 
+      const contract = new ethers.Contract(CAMPAIGN_MANAGER, CAMPAIGN_MANAGER_ABI, signer);
+      const value = ethers.utils.parseEther(amt);
+      const transaction = await contract.donate(campaign.campaignId, Number(amount), { value });
+      transaction.wait();
 
-const data = await walletClient.writeContract({
-        address: CAMPAIGN_MANAGER,
-        abi: CAMPAIGN_MANAGER_ABI,
-        functionName: "donate",
-        args: [campaign.campaignId, Number(amount)],
-        value: parseEther(amt),
-        account
-})
+// const data = await walletClient.writeContract({
+//         address: CAMPAIGN_MANAGER,
+//         abi: CAMPAIGN_MANAGER_ABI,
+//         functionName: "donate",
+//         args: [campaign.campaignId, Number(amount)],
+//         value: parseEther(amt),
+//         account
+// })
 
 
      
