@@ -173,7 +173,7 @@ export const Campaign = () => {
         abi: CAMPAIGN_MANAGER_ABI,
         functionName: "donate",
         args: [campaign.campaignId, Number(amount)],
-        // value: typeof amt !== 'undefined' ? parseEther(amt) : undefined,
+        value: amt !== undefined ? parseEther(amt) : undefined,
       });
 
       toast.success("Donation Successfull");
@@ -189,11 +189,36 @@ export const Campaign = () => {
   };
 
   const withdrawCampaignFunds = async () => {
-    const { hash } = await writeContract({
-      address: campaignAddr,
-      abi: CAMPAIGN_ABI,
-      functionName: "claim",
-    });
+    try {
+      if(raisedFunds != 0) {
+        setInTxn(true)
+        
+        const amt = raisedFunds.toString();
+        const amount = amt as `${number}`;
+        const campaignId: any = await readContract({
+          address: campaignAddr,
+          abi: CAMPAIGN_ABI,
+          functionName: "id",
+        });
+        const { hash } = await writeContract({
+          address: CAMPAIGN_MANAGER,
+          abi: CAMPAIGN_MANAGER_ABI,
+          args: [campaignId, raisedFunds],
+          functionName: "claim",
+        });
+        setInTxn(false)
+      } else {
+        toast.error('Insufficient funds to withdraw')
+      }
+      
+    } catch (error) {
+      console.log(error)
+      setInTxn(false)
+      
+    }
+
+   
+  
   };
 
   const getDonors = async () => {
@@ -397,6 +422,7 @@ export const Campaign = () => {
               </ModalFooter>
             </ModalContent>
           </Modal>
+          
         </Container>
       </main>
     </>

@@ -19,6 +19,7 @@ import {
   Stack,
   VStack,
   useColorModeValue,
+  Progress,
 } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
 import { useContractRead } from "wagmi";
@@ -146,7 +147,7 @@ function Campaigns() {
     getallCampaigns();
     const timeout = setTimeout(() => {
       setIsLoading(false);
-    }, 4500);
+    }, 6500);
 
     // Cleanup function to clear the timeout when the component unmounts
     return () => clearTimeout(timeout);
@@ -194,6 +195,12 @@ function Campaigns() {
           </Center>
         </Text>
         <div>
+        {isLoading ? (
+        <>
+          <Text>Loading campaigns...</Text>
+          <Progress size="xs" isIndeterminate mb={5} />
+        </>
+      ) : (
           <Container
             maxWidth="1200px"
             mx="auto"
@@ -332,7 +339,9 @@ function Campaigns() {
               })}
             </SimpleGrid>
           </Container>
+           )}
         </div>
+     
 
         <Footer />
       </main>
