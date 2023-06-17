@@ -15,7 +15,6 @@ import {
   InputGroup,
   chakra,
   InputRightElement,
-  Link,
   SimpleGrid,
   Stack,
   VStack,
@@ -33,6 +32,7 @@ import {
 import { Masa } from "@masa-finance/masa-sdk";
 import { shortenString } from "@/helpers/shortenString";
 import { shortenAddress } from "@/helpers/shortenAddress";
+import Link from "next/link";
 
 type CampaignDetail = {
   campaignId: number;
@@ -231,7 +231,15 @@ function Campaigns() {
                         </Badge>
                       )}
                     </Box>
-                    <Link href={`#`}>
+                    <Link
+                      href={{
+                        query: {
+                          addr: campaign.campaignScAddress,
+                          // campaignId: campaign.campaignID,
+                        },
+                        pathname: `/campaign/${campaign.campaignScAddress}`,
+                      }}
+                    >
                       <Box
                         borderWidth="1px"
                         shadow="md"
