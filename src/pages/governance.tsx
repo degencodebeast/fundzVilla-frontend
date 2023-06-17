@@ -252,7 +252,7 @@ function Campaigns() {
                               fontWeight="semibold"
                               as="h2"
                               letterSpacing="wide"
-                              textTransform="uppercase"
+                              
                               ml="2"
                               color={"white"}
                             >
@@ -261,7 +261,7 @@ function Campaigns() {
                           </Box>
                           <Box>
                             <Box color="gray.600" fontSize="sm">
-                              <Badge rounded="full" px="2" colorScheme="teal">
+                              <Badge  textTransform={"lowercase"} rounded="full" px="2" colorScheme="teal">
                               {campaign.soulname ||
                                   shortenAddress(campaign.campaignOwner)}
                               </Badge>
