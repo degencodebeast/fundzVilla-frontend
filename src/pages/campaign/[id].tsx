@@ -53,7 +53,7 @@ import { useContractWrite, useNetwork } from "wagmi";
 import { Masa } from "@masa-finance/masa-sdk";
 import { shortenAddress } from "@/helpers/shortenAddress";
 import { celoAlfajores } from "viem/chains";
-import { ethers, providers } from "ethers";
+import { BigNumber, ethers, providers } from "ethers";
 
 const token =
   "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJkaWQ6ZXRocjoweEQyQkNCYTBDQzMyMDJjMmZkQkUzMjFhZjdmODBiOEQ2NzZCRTkyOTciLCJpc3MiOiJ3ZWIzLXN0b3JhZ2UiLCJpYXQiOjE2Nzk4OTI0NzE5OTYsIm5hbWUiOiJUb2tlbiJ9.QQbjt0glkuKqkJ-C4-5q8LOGUFIIhjaIX7FZHohSQhw";
@@ -195,8 +195,9 @@ export const Campaign = () => {
        const signer = provider.getSigner();
 
       const contract = new ethers.Contract(CAMPAIGN_MANAGER, CAMPAIGN_MANAGER_ABI, signer);
-      const value = ethers.utils.parseEther(amt);
-      const transaction = await contract.donate(campaign.campaignId, Number(amount), { value });
+      const value = _amount
+      // const bigNumber = ethers.BigNumber.from(amount);
+      const transaction = await contract.donate(campaign.campaignId, _amount, { value });
       transaction.wait();
 
 // const data = await walletClient.writeContract({
@@ -233,29 +234,30 @@ export const Campaign = () => {
 
   const withdrawCampaignFunds = async () => {
     try {
-      if(raisedFunds != 0) {
+      
         setInTxn(true)
         
         const amt = raisedFunds.toString();
         const amount = amt as `${number}`;
+        const _amount = parseEther('1')
+        console.log(_amount)
         const campaignId: any = await readContract({
           address: campaignAddr,
           abi: CAMPAIGN_ABI,
           functionName: "id",
         });
+        // const bigNumber = ethers.BigNumber.from(1);
+        // console.log(bigNumber)
         const { hash } = await writeContract({
           address: CAMPAIGN_MANAGER,
           abi: CAMPAIGN_MANAGER_ABI,
-          args: [campaignId, raisedFunds],
+          args: [campaignId, _amount],
           functionName: "claim",
         });
         setInTxn(false)
-      } else {
-        toast.error('Insufficient funds to withdraw')
-      }
+     
       
     } catch (error) {
-      console.log(error)
       setInTxn(false)
       
     }
@@ -424,9 +426,9 @@ export const Campaign = () => {
             </Text>
           </VStack>
           <Divider marginTop="5" mb={5} />
-          <Heading>Donor(s)</Heading>
+          <Heading>Donor()</Heading>
           {donors.map((data: any) => {
-            const amountDonated = Number(data.amountDonated)
+            const amountDonated = data.amountDonated.toString()
             return (
               <>
                 <Text>Donation by: {data.donorAddress}</Text>

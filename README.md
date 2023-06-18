@@ -22,6 +22,7 @@ Traditional fundraising bringing access to users arround the world.
 ## Features
 * Create and manage campaigns for fundraising.
 * Vote on Fraudulent Campaigns
+* Register Soulnames on the CeloAlfajores network.
 * Governance system for proposal creation and decision-making.
 * Easy setup and installation.
 
