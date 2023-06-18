@@ -24,6 +24,7 @@ Traditional fundraising bringing access to users arround the world.
 * Vote on Fraudulent Campaigns
 * Register Soulnames on the CeloAlfajores network.
 * Governance system for proposal creation and decision-making.
+* Join DAO by minting Masa green SBTs and purchasing Governance tokens.
 * Easy setup and installation.
 
 ## Challenges Encountered
