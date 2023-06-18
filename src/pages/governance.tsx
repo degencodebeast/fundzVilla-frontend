@@ -43,7 +43,7 @@ import { shortenString } from "@/helpers/shortenString";
 import { shortenAddress } from "@/helpers/shortenAddress";
 import Link from "next/link";
 import { providers } from "ethers";
-import { toast } from "react-hot-toast";
+import toast, { Toaster } from "react-hot-toast";
 
 type CampaignDetail = {
   campaignId: number;
@@ -179,6 +179,9 @@ function Campaigns() {
        setOtpSent(true)
        toast.success('OTP Sent')
       }
+      else if(generateOTP.status == 'failed') {
+        toast.error(generateOTP.message)
+      }
     } catch (error) {
       toast.error('something went wrong pleast try again')
       
@@ -204,8 +207,11 @@ function Campaigns() {
      const result = await masa.session.login();
      const isLoggedIn = await masa.session.checkLogin();
 
+     const isGreener = await masa.green.list(signer._address)
+     console.log(isGreener)
+
      
-     if(otpSent) {
+     if(otpSent|| !isGreener) {
         const createGreen = await masa.green.create('CELO', phoneNumber, otpCode)
         if(createGreen){
           console.log('success')
@@ -213,8 +219,10 @@ function Campaigns() {
           setOtpSent(false)
           setPhoneNumber('')
           setOtpCode('')
+          onClose();
         } else{
-          toast.error('OTP Invalid')
+          toast.error('oops..Account Exists!')
+          onClose();
 
         }
 
@@ -245,6 +253,7 @@ function Campaigns() {
   return (
     <>
       <Navbar />
+      <Toaster />
       <main
         className={`main-color flex min-h-screen flex-col items-center justify-between p-24 `}
       >
