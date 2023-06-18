@@ -174,7 +174,6 @@ export const Campaign = () => {
       const convertBalance = ethers.BigNumber.from(balance.toString());
       const funds =  ethers.utils.formatUnits(convertBalance, 18)
       const _bal = parseFloat(funds).toFixed(2);
-      console.log('UNDZ', )
       setRaisedFunds(Number(_bal));
     } catch (error) {
       console.log(error);

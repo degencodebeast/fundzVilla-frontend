@@ -20,6 +20,14 @@ import {
   VStack,
   useColorModeValue,
   Progress,
+  ModalOverlay,
+  Modal,
+  ModalBody,
+  ModalCloseButton,
+  ModalContent,
+  ModalFooter,
+  ModalHeader,
+  useDisclosure,
 } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
 import { useContractRead } from "wagmi";
@@ -34,6 +42,8 @@ import { Masa } from "@masa-finance/masa-sdk";
 import { shortenString } from "@/helpers/shortenString";
 import { shortenAddress } from "@/helpers/shortenAddress";
 import Link from "next/link";
+import { providers } from "ethers";
+import { toast } from "react-hot-toast";
 
 type CampaignDetail = {
   campaignId: number;
@@ -55,9 +65,15 @@ type Campaign = {
 };
 
 function Campaigns() {
+  const { isOpen, onOpen, onClose } = useDisclosure();
+
   const [allCampaigns, setallCampaigns] = useState<any[]>([]);
   const [noOfcampaigns, setNoOfcampaigns] = useState<number>(0);
   const [isLoading, setIsLoading] = useState(true);
+  const [inTxn, setInTxn] = useState(false)
+  const [phoneNumber, setPhoneNumber] = useState('');
+  const [otpSent, setOtpSent] = useState(false)
+  const [otpCode, setOtpCode] = useState('')
 
   const getallCampaigns = async () => {
     const [account] = await window.ethereum.request({
@@ -76,10 +92,7 @@ function Campaigns() {
         abi: CAMPAIGN_MANAGER_ABI,
         functionName: "getAllCampaigns",
       });
-      console.log(masa.config);
-      console.log(masa.config.networkName);
-
-      console.log("HERE: ", allCampaignsAddresses);
+     
 
       let new_campaigns = [];
 
@@ -143,6 +156,83 @@ function Campaigns() {
       console.log(error);
     }
   };
+
+  const sendOTP = async() => {
+
+    try {
+      const provider = new providers.Web3Provider(window.ethereum);
+      const signer = provider.getSigner();
+  
+      
+  
+      const masa = new Masa({
+        signer: signer,
+        environment: "dev",
+        networkName: "alfajores",
+        apiUrl: " https://dev.middleware.masa.finance/",
+      });
+      const result = await masa.session.login();
+      const isLoggedIn = await masa.session.checkLogin();
+ 
+      const generateOTP = await masa.green.generate(phoneNumber);
+      if(generateOTP.success) {
+       setOtpSent(true)
+       toast.success('OTP Sent')
+      }
+    } catch (error) {
+      toast.error('something went wrong pleast try again')
+      
+    }
+   
+
+
+  }
+  const createSBTAndJoinDAO = async () => {
+    try {
+     const provider = new providers.Web3Provider(window.ethereum);
+     const signer = provider.getSigner();
+ 
+     
+ 
+     const masa = new Masa({
+       signer: signer,
+       environment: "dev",
+       networkName: "alfajores",
+       apiUrl: " https://dev.middleware.masa.finance/",
+     });
+     setInTxn(true)
+     const result = await masa.session.login();
+     const isLoggedIn = await masa.session.checkLogin();
+
+     
+     if(otpSent) {
+        const createGreen = await masa.green.create('CELO', phoneNumber, otpCode)
+        if(createGreen){
+          console.log('success')
+          toast.success('Masa green Minted welcome onBoard')
+          setOtpSent(false)
+          setPhoneNumber('')
+          setOtpCode('')
+        } else{
+          toast.error('OTP Invalid')
+
+        }
+
+
+     }
+
+     
+ 
+     
+ 
+     
+     
+    } catch (error) {
+     console.log(error)
+     setInTxn(false)
+    }
+   };
+
   useEffect(() => {
     getallCampaigns();
     const timeout = setTimeout(() => {
@@ -189,6 +279,7 @@ function Campaigns() {
                 bgGradient: "linear(to-l, #0ea5e9,#2563eb)",
                 opacity: 0.9,
               }}
+              onClick={onOpen}
             >
               <chakra.span> Join FundzVilla DAO </chakra.span>
             </chakra.button>
@@ -338,6 +429,58 @@ function Campaigns() {
                 );
               })}
             </SimpleGrid>
+            <Modal blockScrollOnMount={false} isOpen={isOpen} onClose={onClose}>
+        <ModalOverlay />
+        <ModalContent>
+          <ModalHeader>Lets Mint you a Masa Green SBT</ModalHeader>
+          <ModalCloseButton />
+          <ModalBody>
+            <FormControl isRequired>
+              <FormLabel>Phone Number</FormLabel>
+              <Input
+                placeholder="please include country code(+234905..)"
+                _placeholder={{ color: "gray.500" }}
+                type="text"
+                required
+                onChange={(e) => {
+                  setPhoneNumber(e.target.value);
+                }}
+              />
+              <Button mt={3} colorScheme="blue" mr={3} onClick={sendOTP}>
+              Request otp
+            </Button>
+            </FormControl>
+            {otpSent && (
+              <>
+                <Text mt={2}>OTP Sent..</Text>
+              </>
+            )}
+            <FormControl mt={3} isRequired>
+              <FormLabel>OTP</FormLabel>
+              <Input
+                placeholder="OTP"
+                _placeholder={{ color: "gray.500" }}
+                type="text"
+                required
+                onChange={(e) => {
+                  setOtpCode(e.target.value);
+                }}
+              />
+            </FormControl>
+            
+           
+          </ModalBody>
+
+          <ModalFooter>
+            <Button colorScheme="blue" mr={3} onClick={onClose}>
+              Close
+            </Button>
+            <Button variant="ghost" onClick={createSBTAndJoinDAO}>
+              Join FundzVilla
+            </Button>
+          </ModalFooter>
+        </ModalContent>
+      </Modal>
           </Container>
            )}
         </div>
