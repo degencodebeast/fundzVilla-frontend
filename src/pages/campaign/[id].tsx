@@ -159,15 +159,23 @@ export const Campaign = () => {
         args: [campaignAddr],
         functionName: "getAddressBalance",
       });
+
       let sum = 0;
       for(let i = 0; i<donors.length; i++) {
-        const amt = Number(donors[i].amountDonated)
-        sum += amt;
+        const amt = (donors[i].amountDonated);
+        const _amt = ethers.BigNumber.from(amt.toString());
+        const convert_amt = ethers.utils.formatUnits(_amt, 18)
+        const bal = parseFloat(convert_amt).toFixed(2);
+        const number_amt = Number(bal)
+        sum += number_amt;
       }
       const updatedFunds = sum;
       setRealTimeFunds(updatedFunds)
-      const funds = Number(balance);
-      setRaisedFunds(funds);
+      const convertBalance = ethers.BigNumber.from(balance.toString());
+      const funds =  ethers.utils.formatUnits(convertBalance, 18)
+      const _bal = parseFloat(funds).toFixed(2);
+      console.log('UNDZ', )
+      setRaisedFunds(Number(_bal));
     } catch (error) {
       console.log(error);
     }
@@ -179,18 +187,18 @@ export const Campaign = () => {
       const _amount = parseEther(amt);
       setInTxn(true);
 
-      const publicClient = createPublicClient({
-        chain: celoAlfajores,
-        transport: http()
-      })
+      // const publicClient = createPublicClient({
+      //   chain: celoAlfajores,
+      //   transport: http()
+      // })
       
-      const walletClient = createWalletClient({
-        chain: celoAlfajores,
-        transport: custom(window.ethereum)
-      })
+      // const walletClient = createWalletClient({
+      //   chain: celoAlfajores,
+      //   transport: custom(window.ethereum)
+      // })
       
       // JSON-RPC Account
-      const [account] = await walletClient.getAddresses()
+      // const [account] = await walletClient.getAddresses()
       const provider = new providers.Web3Provider(window.ethereum);
        const signer = provider.getSigner();
 
@@ -429,10 +437,14 @@ export const Campaign = () => {
           <Heading>Donor()</Heading>
           {donors.map((data: any) => {
             const amountDonated = data.amountDonated.toString()
+            const _amt = ethers.BigNumber.from(amountDonated.toString());
+            const convert_amt = ethers.utils.formatUnits(_amt, 18)
+            const bal = parseFloat(convert_amt).toFixed(2);
+            const number_amt = Number(bal)
             return (
               <>
                 <Text>Donation by: {data.donorAddress}</Text>
-                <Text>Amount: {amountDonated} Celo </Text>
+                <Text>Amount: {number_amt} Celo </Text>
                 <Divider marginTop="5" mb={5} />
               </>
             );
