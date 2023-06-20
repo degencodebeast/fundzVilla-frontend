@@ -13,6 +13,7 @@ import {
 interface ISponsor {
   heading: string;
   content: string;
+  link: string;
   icon: SVGProps<SVGElement>;
 }
 
@@ -20,6 +21,7 @@ const sponsors: ISponsor[] = [
   {
     heading: "Celo Developers",
     content: "Devs  .",
+    link: 'https://discord.com/invite/atBpDfqQqX',
     icon: (
       <svg
         width={36}
@@ -41,6 +43,7 @@ const sponsors: ISponsor[] = [
   {
     heading: "Social Connect",
     content: "Authentiction.",
+    link: 'https://github.com/celo-org/SocialConnect',
     icon: (
       <svg
         width={36}
@@ -62,6 +65,7 @@ const sponsors: ISponsor[] = [
   {
     heading: "Masa Finance",
     content: "Soul names.",
+    link: 'https://developers.masa.finance/',
     icon: (
       <svg
         width={36}
@@ -124,7 +128,7 @@ const Sponsors = () => {
             <Text fontSize="md" mt={4}>
               {sponsor.content}
             </Text>
-            <Link href="#" mt={4} fontSize="sm" color="blue.400">
+            <Link href={sponsor.link} mt={4} fontSize="sm" color="blue.400">
               Learn more →
             </Link>
           </Box>
