@@ -128,7 +128,7 @@ const Sponsors = () => {
             <Text fontSize="md" mt={4}>
               {sponsor.content}
             </Text>
-            <Link href={sponsor.link} mt={4} fontSize="sm" color="blue.400">
+            <Link target="_blank" href={sponsor.link} mt={4} fontSize="sm" color="blue.400">
               Learn more →
             </Link>
           </Box>
