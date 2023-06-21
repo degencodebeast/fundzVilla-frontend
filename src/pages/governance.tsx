@@ -297,7 +297,7 @@ function Campaigns() {
         <div>
         {isLoading ? (
         <>
-          <Text color={'white'}>Loading campaigns...</Text>
+          <Text color={'white'}>Loading campaigns please wait...</Text>
           <Progress size="xs" isIndeterminate mb={5} />
         </>
       ) : (

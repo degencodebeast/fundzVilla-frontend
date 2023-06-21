@@ -160,7 +160,7 @@ function Campaigns() {
     getallCampaigns();
     const timeout = setTimeout(() => {
       setIsLoading(false);
-    }, 6500);
+    }, 8500);
 
     // Cleanup function to clear the timeout when the component unmounts
     return () => clearTimeout(timeout);
@@ -202,7 +202,7 @@ function Campaigns() {
         <div>
         {isLoading ? (
         <>
-          <Text color={'white'}>Loading campaigns...</Text>
+          <Text color={'white'}>Loading Campaigns please wait...</Text>
           <Progress size="xs" isIndeterminate mb={5} />
         </>
       ) : (
