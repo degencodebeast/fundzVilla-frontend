@@ -18,7 +18,7 @@ import { createPublicClient, http } from "viem";
 import { Masa } from "@masa-finance/masa-sdk";
 
 const { chains, publicClient, webSocketPublicClient } = configureChains(
-  [celoAlfajores, celo],
+  [celoAlfajores],
   [
     alchemyProvider({ apiKey: "FIOu28Q3CCOEkqymVRAu6impiDJtclAW" }),
     publicProvider(),
