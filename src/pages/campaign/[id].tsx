@@ -35,6 +35,7 @@ import {
   Stack,
   useDisclosure,
 } from "@chakra-ui/react";
+import { Framework, SuperToken } from "@superfluid-finance/sdk-core";
 import { Navbar } from "@/components";
 import { useRouter } from "next/router";
 import { Web3Storage } from "web3.storage";
@@ -54,7 +55,6 @@ import { Masa } from "@masa-finance/masa-sdk";
 import { shortenAddress } from "@/helpers/shortenAddress";
 import { celoAlfajores } from "viem/chains";
 import { BigNumber, ethers, providers } from "ethers";
-
 const token =
   "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJkaWQ6ZXRocjoweEQyQkNCYTBDQzMyMDJjMmZkQkUzMjFhZjdmODBiOEQ2NzZCRTkyOTciLCJpc3MiOiJ3ZWIzLXN0b3JhZ2UiLCJpYXQiOjE2Nzk4OTI0NzE5OTYsIm5hbWUiOiJUb2tlbiJ9.QQbjt0glkuKqkJ-C4-5q8LOGUFIIhjaIX7FZHohSQhw";
 
@@ -82,6 +82,14 @@ export const Campaign = () => {
   const [inTxn, setInTxn] = useState(false);
   const [raisedFunds, setRaisedFunds] = useState(0);
   const [realtimeFunds, setRealTimeFunds] = useState(0);
+  const [flowRate, setFlowRate] = useState('')
+
+
+
+
+
+
+  
 
 
   const getCampaignData = async () => {
@@ -239,6 +247,8 @@ export const Campaign = () => {
     }
   };
 
+
+
   const withdrawCampaignFunds = async () => {
     try {
       
@@ -292,6 +302,70 @@ export const Campaign = () => {
       console.log(error);
     }
   };
+
+  const makeSuperDonations = async () => {
+
+    const provider = new ethers.providers.Web3Provider(window.ethereum);
+  
+    const chainId = await window.ethereum.request({ method: "eth_chainId" });
+    const sf = await Framework.create({
+        chainId: Number(chainId),
+        provider: provider
+    });
+
+    const signer = provider.getSigner();
+    const accounts = await window.ethereum.request({ method: "eth_accounts" });
+    
+   
+
+    const maticx = await sf.loadSuperToken("0x96B82B65ACF7072eFEb00502F45757F254c2a0D4");
+    const superSigner = sf.createSigner({ signer: signer });
+
+    const name = await maticx.name({
+      providerOrSigner: provider
+    });
+    
+console.log('NAMEEE::', name)
+    const balance = await maticx.balanceOf({
+      account: accounts[0].toString(),
+      providerOrSigner: provider
+  });
+
+  console.log('BALANCE::', balance)
+  // const amountInWei = ethers.BigNumber.from(Number(flowRate));
+  // console.log(amountInWei)
+  // const monthlyAmount = ethers.utils.formatEther(amountInWei.toString());
+  // const calculatedFlowRate =   3600 * 24 * 30 * Number(monthlyAmount);
+  // const rate_persec = Number(calculatedFlowRate)
+  // console.log(rate_persec)
+
+  const currencyInWei = BigInt(flowRate) * BigInt(10 ** 18);
+  const secondsInMonth = BigInt(60 * 60 * 24 * 30);
+  const rate = currencyInWei / secondsInMonth;
+
+  console.log(rate)  
+
+  if (Number(balance) > 0) {
+    const createflow = maticx.createFlow({
+      sender: await superSigner.getAddress(),
+      receiver: '0x1c299d970ad881eD0a0E731A2c5EfB29590e5957',
+      flowRate: rate.toString(),
+      overrides: {
+        gasLimit: 500000
+      }
+    });
+    const createflowlog = await createflow.exec(signer);
+    console.log('oioioioiXXX',createflowlog)
+  }
+  else {
+    toast.loading('Please check the top Nav to get SuperTokens')
+  }
+
+
+  
+
+
+  }
 
   useEffect(() => {
     const updateData = async () => {
@@ -405,7 +479,7 @@ export const Campaign = () => {
                     size={"md"}
                     width={"auto"}
                   >
-                    Withdraw Funds
+                    Withdraw Funds 
                   </Button>
                 </>
               )}
@@ -430,6 +504,7 @@ export const Campaign = () => {
               >
                 Donate
               </Button>
+
             </Text>
           </VStack>
           <Divider marginTop="5" mb={5} />
@@ -443,7 +518,7 @@ export const Campaign = () => {
             return (
               <>
                 <Text>Donation by: {data.donorAddress}</Text>
-                <Text>Amount: {number_amt} Celo </Text>
+                <Text>Amount: {number_amt} cUsd </Text>
                 <Divider marginTop="5" mb={5} />
               </>
             );
@@ -451,13 +526,14 @@ export const Campaign = () => {
           <Modal blockScrollOnMount={false} isOpen={isOpen} onClose={onClose}>
             <ModalOverlay />
             <ModalContent>
-              <ModalHeader>Donate</ModalHeader>
+              <ModalHeader>Support This Campaign</ModalHeader>
               <ModalCloseButton />
               <ModalBody>
+               <b><h3>One-Time Donation</h3></b>
                 <FormControl id="userName" isRequired>
                   <FormLabel>Amount</FormLabel>
                   <Input
-                    placeholder="Enter Amount in celo"
+                    placeholder="Enter Amount in cUsd"
                     _placeholder={{ color: "gray.500" }}
                     type="text"
                     required
@@ -465,6 +541,26 @@ export const Campaign = () => {
                       setAmount(e.target.value);
                     }}
                   />
+                  <Button mt={2} mb={2} bgColor={'green.500'} variant="outline" onClick={makeDonation}>
+                  Donate
+                </Button>
+                </FormControl>
+                <b><h3>Recurring Donations</h3></b> <br />
+
+                <FormControl id="userName" isRequired>
+                  <FormLabel>Amount</FormLabel>
+                  <Input
+                    placeholder="Enter Amount in cUsdx"
+                    _placeholder={{ color: "gray.500" }}
+                    type="text"
+                    required
+                    onChange={(e) => {
+                      setFlowRate(e.target.value);
+                    }}
+                  />
+                  <Button mt={2} bgColor={'green.800'} variant="outline" onClick={makeSuperDonations}>
+                  Donate
+                </Button>
                 </FormControl>
               </ModalBody>
 
@@ -472,9 +568,7 @@ export const Campaign = () => {
                 <Button colorScheme="blue" mr={3} onClick={onClose}>
                   Close
                 </Button>
-                <Button variant="ghost" onClick={makeDonation}>
-                  Donate
-                </Button>
+                
               </ModalFooter>
             </ModalContent>
           </Modal>

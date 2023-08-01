@@ -20,7 +20,7 @@ interface ISponsor {
 const sponsors: ISponsor[] = [
   {
     heading: "Celo Developers",
-    content: "Devs  .",
+    content: "Devs",
     link: 'https://discord.com/invite/atBpDfqQqX',
     icon: (
       <svg
@@ -41,9 +41,9 @@ const sponsors: ISponsor[] = [
     ),
   },
   {
-    heading: "Social Connect",
-    content: "Authentiction.",
-    link: 'https://github.com/celo-org/SocialConnect',
+    heading: "SuperFluid",
+    content: "Money Streaming.",
+    link: 'https://app.superfluid.finance/',
     icon: (
       <svg
         width={36}

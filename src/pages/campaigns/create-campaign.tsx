@@ -207,14 +207,14 @@ function CreateCampaign() {
                   </FormControl>
 
                   <FormControl id="targ">
-                    <FormLabel>Target (celo)</FormLabel>
+                    <FormLabel>Target (cUsd)</FormLabel>
                     <Input
                       onChange={(e) => {
                         setTarget(e.target.value);
                       }}
                       rounded="md"
                       type="text"
-                      placeholder="Enter the amount you need for suppport"
+                      placeholder="Enter the amount you need for support"
                     />
                   </FormControl>
 

@@ -9,7 +9,7 @@ import theme from "../components/theme";
 import "@rainbow-me/rainbowkit/styles.css";
 import { getDefaultWallets, RainbowKitProvider } from "@rainbow-me/rainbowkit";
 import { Chain, configureChains, createConfig, WagmiConfig } from "wagmi";
-import { celoAlfajores, celo } from "wagmi/chains";
+import { celoAlfajores, celo, polygonMumbai } from "wagmi/chains";
 import { alchemyProvider } from "wagmi/providers/alchemy";
 import { publicProvider } from "wagmi/providers/public";
 import { usePublicClient } from "wagmi";
@@ -18,7 +18,7 @@ import { createPublicClient, http } from "viem";
 import { Masa } from "@masa-finance/masa-sdk";
 
 const { chains, publicClient, webSocketPublicClient } = configureChains(
-  [celoAlfajores],
+  [celoAlfajores, polygonMumbai, celo],
   [
     alchemyProvider({ apiKey: "FIOu28Q3CCOEkqymVRAu6impiDJtclAW" }),
     publicProvider(),

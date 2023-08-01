@@ -292,7 +292,7 @@ function Campaigns() {
                               </Badge>
                             </Box>
                             <Text mt={1} color="white" ml={1}>
-                              <strong>{campaign.campaignTarget} celo</strong>{" "}
+                              <strong>{campaign.campaignTarget} cUsd</strong>{" "}
                             </Text>
                           </Box>
                           <Text
