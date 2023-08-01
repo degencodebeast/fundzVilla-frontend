@@ -8,13 +8,15 @@ import {
   Flex,
   Link,
   useColorModeValue,
+  Avatar,
+  AvatarBadge,
 } from "@chakra-ui/react";
 
 interface ISponsor {
   heading: string;
   content: string;
   link: string;
-  icon: SVGProps<SVGElement>;
+  logo: string;
 }
 
 const sponsors: ISponsor[] = [
@@ -22,67 +24,23 @@ const sponsors: ISponsor[] = [
     heading: "Celo Developers",
     content: "Devs",
     link: 'https://discord.com/invite/atBpDfqQqX',
-    icon: (
-      <svg
-        width={36}
-        height={36}
-        xmlns="http://www.w3.org/2000/svg"
-        fill="none"
-        viewBox="0 0 24 24"
-        stroke="currentColor"
-      >
-        <path
-          stroke-linecap="round"
-          stroke-linejoin="round"
-          stroke-width="2"
-          d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z"
-        ></path>
-      </svg>
-    ),
+    logo: '/celo.png',
+
   },
   {
     heading: "SuperFluid",
     content: "Money Streaming.",
     link: 'https://app.superfluid.finance/',
-    icon: (
-      <svg
-        width={36}
-        height={36}
-        xmlns="http://www.w3.org/2000/svg"
-        fill="none"
-        viewBox="0 0 24 24"
-        stroke="currentColor"
-      >
-        <path
-          stroke-linecap="round"
-          stroke-linejoin="round"
-          stroke-width="2"
-          d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01"
-        ></path>
-      </svg>
-    ),
+    logo: '/super.png',
+
+   
   },
   {
     heading: "Masa Finance",
     content: "Soul names.",
     link: 'https://developers.masa.finance/',
-    icon: (
-      <svg
-        width={36}
-        height={36}
-        xmlns="http://www.w3.org/2000/svg"
-        fill="none"
-        viewBox="0 0 24 24"
-        stroke="currentColor"
-      >
-        <path
-          stroke-linecap="round"
-          stroke-linejoin="round"
-          stroke-width="2"
-          d="M8 9l3 3-3 3m5 0h3M5 20h14a2 2 0 002-2V6a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"
-        ></path>
-      </svg>
-    ),
+    logo: '/masa.png',
+   
   },
 ];
 
@@ -120,7 +78,7 @@ const Sponsors = () => {
               top="-1.5rem"
               boxShadow="lg"
             >
-              {"icon"}
+              <Avatar size="sm" name="Icon" src={sponsor.logo}>    </Avatar>
             </Flex>
             <chakra.h3 fontWeight="semibold" fontSize="2xl" mt={6}>
               {sponsor.heading}

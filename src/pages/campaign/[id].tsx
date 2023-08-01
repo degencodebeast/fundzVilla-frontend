@@ -318,26 +318,21 @@ export const Campaign = () => {
     
    
 
-    const maticx = await sf.loadSuperToken("0x96B82B65ACF7072eFEb00502F45757F254c2a0D4");
+    const cusdx = await sf.loadSuperToken("0x96B82B65ACF7072eFEb00502F45757F254c2a0D4");
     const superSigner = sf.createSigner({ signer: signer });
 
-    const name = await maticx.name({
+    const name = await cusdx.name({
       providerOrSigner: provider
     });
     
 console.log('NAMEEE::', name)
-    const balance = await maticx.balanceOf({
+    const balance = await cusdx.balanceOf({
       account: accounts[0].toString(),
       providerOrSigner: provider
   });
 
   console.log('BALANCE::', balance)
-  // const amountInWei = ethers.BigNumber.from(Number(flowRate));
-  // console.log(amountInWei)
-  // const monthlyAmount = ethers.utils.formatEther(amountInWei.toString());
-  // const calculatedFlowRate =   3600 * 24 * 30 * Number(monthlyAmount);
-  // const rate_persec = Number(calculatedFlowRate)
-  // console.log(rate_persec)
+ 
 
   const currencyInWei = BigInt(flowRate) * BigInt(10 ** 18);
   const secondsInMonth = BigInt(60 * 60 * 24 * 30);
@@ -345,20 +340,21 @@ console.log('NAMEEE::', name)
 
   console.log(rate)  
 
-  if (Number(balance) > 0) {
-    const createflow = maticx.createFlow({
+  if (Number(balance) > 0 && campaignAddr) {
+    const createflow = cusdx.createFlow({
       sender: await superSigner.getAddress(),
-      receiver: '0x1c299d970ad881eD0a0E731A2c5EfB29590e5957',
+      receiver: campaignAddr,
       flowRate: rate.toString(),
       overrides: {
         gasLimit: 500000
       }
     });
     const createflowlog = await createflow.exec(signer);
-    console.log('oioioioiXXX',createflowlog)
+    console.log('flowLOG',createflowlog)
+    
   }
   else {
-    toast.loading('Please check the top Nav to get SuperTokens')
+    toast.loading('Please  get SuperTokens')
   }
 
 
@@ -548,7 +544,7 @@ console.log('NAMEEE::', name)
                 <b><h3>Recurring Donations</h3></b> <br />
 
                 <FormControl id="userName" isRequired>
-                  <FormLabel>Amount</FormLabel>
+                  <FormLabel>Amount- <i>monthly</i></FormLabel>
                   <Input
                     placeholder="Enter Amount in cUsdx"
                     _placeholder={{ color: "gray.500" }}
