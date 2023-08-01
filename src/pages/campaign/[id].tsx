@@ -318,7 +318,7 @@ export const Campaign = () => {
     
    
 
-    const cusdx = await sf.loadSuperToken("0x96B82B65ACF7072eFEb00502F45757F254c2a0D4");
+    const cusdx = await sf.loadSuperToken("0x3acb9a08697b6db4cd977e8ab42b6f24722e6d6e");
     const superSigner = sf.createSigner({ signer: signer });
 
     const name = await cusdx.name({
@@ -351,6 +351,7 @@ console.log('NAMEEE::', name)
     });
     const createflowlog = await createflow.exec(signer);
     console.log('flowLOG',createflowlog)
+    toast.success('Donation stream started')
     
   }
   else {
